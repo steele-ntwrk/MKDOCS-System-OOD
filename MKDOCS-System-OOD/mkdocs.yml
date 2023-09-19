@@ -1,0 +1,36 @@
+site_name: System-OOD Documentation
+
+nav:
+    - Home: index.md
+    - Shared Resources:
+        - Images: shared_resources/images/index.md
+        - Requirements:
+            - Functional: shared_resources/requirements/functional/index.md
+            - Security: shared_resources/requirements/security/index.md
+        - Services:
+            - SIEM: 
+                - Overview: shared_resources/services/SIEM/syslog.md
+                - Diagrams: shared_resources/services/SIEM/diagrams/index.md
+    - SystemA:
+        - SDD: SystemA/SDD.md
+        - subsystemA:
+            - Component1: 
+                - DD: SystemA/subsystemA/component1/DD.md
+                - Diagrams: SystemA/subsystemA/component1/diagrams/index.md
+            - Component2: 
+                - DD: SystemA/subsystemA/component2/DD.md
+                - Diagrams: SystemA/subsystemA/component2/diagrams/index.md
+    - SystemB:
+        - SDD: SystemB/SDD.md
+        - subsystemB:
+            - Component1: 
+                - DD: SystemB/subsystemB/component1/DD.md
+                - Diagrams: SystemB/subsystemB/component1/diagrams/index.md
+            - Component2: 
+                - DD: SystemB/subsystemB/component2/DD.md
+                - Diagrams: SystemB/subsystemB/component2/diagrams/index.md
+
+theme:
+  name: material
+
+
