@@ -15,3 +15,45 @@ For full documentation visit [mkdocs.org](https://www.mkdocs.org).
     docs/
         index.md  # The documentation homepage.
         ...       # Other markdown pages, images and other files.
+
+
+### System Object Orientated Documenation 
+
+MKDOCS-System-OOD/
+│
+├── shared_resources/
+│   ├── images/
+│   ├── requirements/
+│   │   ├── functional/
+│   │   └── security/
+│   └── services/
+│       └── SIEM/
+│           ├── syslog.md
+│           └── diagrams/
+│
+├── SystemA/
+│   ├── SDD.md
+│   ├── components/
+│   │   ├── Component1/
+│   │   │   ├── DD.md
+│   │   │   └── diagrams/
+│   │   ├── Component2/
+│   │   │   ├── DD.md
+│   │   │   └── diagrams/
+│   │   └── ...
+│   └── images/
+│
+├── SystemB/
+│   ├── SDD.md
+│   ├── components/
+│   │   ├── Component1/
+│   │   │   ├── DD.md
+│   │   │   └── diagrams/
+│   │   ├── Component2/
+│   │   │   ├── DD.md
+│   │   │   └── diagrams/
+│   │   └── ...
+│   └── images/
+│
+└── ...
+
