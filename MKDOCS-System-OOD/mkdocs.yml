@@ -33,4 +33,11 @@ nav:
 theme:
   name: material
 
+plugins:
+    - drawio-exporter:
+        drawio_executable: /usr/bin/drawio
+
+markdown_extensions:
+  - attr_list
+  - md_in_html
 
