@@ -9,10 +9,6 @@
       
       
       
-        <link rel="prev" href="../../../requirements/functional/">
-      
-      
-        <link rel="next" href="../../../../SystemA/SDD/">
       
       
       <link rel="icon" href="../../../../assets/images/favicon.png">
@@ -20,7 +16,7 @@
     
     
       
-        <title>Overview - System-OOD Documentation</title>
+        <title>TEST - System-OOD Documentation</title>
       
     
     
@@ -65,7 +61,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#program-syslog-services" class="md-skip">
+        <a href="#test" class="md-skip">
           Skip to content
         </a>
       
@@ -101,7 +97,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Overview
+              TEST
             
           </span>
         </div>
@@ -170,19 +166,17 @@
       
   
   
-    
-  
   
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
         
           <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
             
@@ -195,7 +189,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             Shared Resources
@@ -308,19 +302,17 @@
                 
   
   
-    
-  
   
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
         
           <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
             
@@ -333,7 +325,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2_3">
             <span class="md-nav__icon md-icon"></span>
             Services
@@ -344,63 +336,17 @@
                 
   
   
-    
   
-  
-    
-    
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
-      
+    <li class="md-nav__item">
+      <a href="../index.md" class="md-nav__link">
         
-        
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3_1" checked>
-        
-          <label class="md-nav__link" for="__nav_2_3_1" id="__nav_2_3_1_label" tabindex="0">
-            
   
   <span class="md-ellipsis">
     SIEM
   </span>
   
 
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_3_1_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_2_3_1">
-            <span class="md-nav__icon md-icon"></span>
-            SIEM
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-    
-  
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
-        
-  
-  <span class="md-ellipsis">
-    Overview
-  </span>
-  
-
       </a>
-      
     </li>
   
 
@@ -412,23 +358,15 @@
   
   
     <li class="md-nav__item">
-      <a href="../diagrams/index.md" class="md-nav__link">
+      <a href="../../syslog/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Diagrams
+    Syslog
   </span>
   
 
       </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
     </li>
   
 
@@ -1016,8 +954,167 @@
                   
 
 
-<h1 id="program-syslog-services">Program Syslog Services</h1>
-<p>TEST</p>
+<h1 id="test">TEST</h1>
+<h1 id="syslog-service-detailed-design-for-xyz-corp">Syslog Service Detailed Design for XYZ Corp</h1>
+<hr />
+<h4 id="overview">Overview</h4>
+<p>Designed to offer a centralized Syslog service tailored for XYZ Corp's multi-state operations. The architecture provides custom configurations for three distinct environments: Production (Prod), Testing (Test), and Development (Dev).</p>
+<hr />
+<h4 id="options-to-consume-service">Options to Consume Service</h4>
+<h5 id="1-direct-syslog-feed-port-514-udptcp">1. Direct Syslog Feed (Port 514 UDP/TCP)</h5>
+<h6 id="prod-environment">Prod Environment</h6>
+<ul>
+<li><strong>Architecture</strong></li>
+<li>Dual primary syslog servers for high availability</li>
+<li>
+<p>ElasticSearch cluster for data storage</p>
+</li>
+<li>
+<p><strong>Security</strong></p>
+</li>
+<li>Log data encrypted at rest</li>
+<li>
+<p>Access Control through Windows AD</p>
+</li>
+<li>
+<p><strong>Retention and Backup</strong></p>
+</li>
+<li>Log retention: 90 days</li>
+<li>Off-site backup every 24 hours</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Syslog Servers</td>
+<td>2</td>
+</tr>
+<tr>
+<td>Data Storage</td>
+<td>ElasticSearch Cluster</td>
+</tr>
+<tr>
+<td>Log Retention</td>
+<td>90 days</td>
+</tr>
+<tr>
+<td>Backup Frequency</td>
+<td>Off-site every 24 hours</td>
+</tr>
+</tbody>
+</table>
+<h6 id="test-environment">Test Environment</h6>
+<ul>
+<li><strong>Architecture</strong></li>
+<li>Single primary syslog server</li>
+<li>
+<p>ElasticSearch for data storage</p>
+</li>
+<li>
+<p><strong>Security</strong></p>
+</li>
+<li>
+<p>Access Control through Windows AD</p>
+</li>
+<li>
+<p><strong>Retention and Backup</strong></p>
+</li>
+<li>Log retention: 30 days</li>
+<li>No off-site backup</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Syslog Server</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Data Storage</td>
+<td>ElasticSearch</td>
+</tr>
+<tr>
+<td>Log Retention</td>
+<td>30 days</td>
+</tr>
+<tr>
+<td>Backup Frequency</td>
+<td>None</td>
+</tr>
+</tbody>
+</table>
+<h6 id="dev-environment">Dev Environment</h6>
+<ul>
+<li><strong>Architecture</strong></li>
+<li>Single primary syslog server</li>
+<li>
+<p>ElasticSearch for data storage</p>
+</li>
+<li>
+<p><strong>Security</strong></p>
+</li>
+<li>
+<p>Rate-limiting on API</p>
+</li>
+<li>
+<p><strong>Retention and Backup</strong></p>
+</li>
+<li>Log retention: 7 days</li>
+<li>No backup</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Syslog Server</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Data Storage</td>
+<td>ElasticSearch</td>
+</tr>
+<tr>
+<td>Log Retention</td>
+<td>7 days</td>
+</tr>
+<tr>
+<td>Backup Frequency</td>
+<td>None</td>
+</tr>
+</tbody>
+</table>
+<h5 id="2-restful-api">2. RESTful API</h5>
+<h6 id="prod-environment_1">Prod Environment</h6>
+<ul>
+<li><strong>Auth</strong></li>
+<li>API keys or OAuth2 tokens</li>
+</ul>
+<h6 id="test-environment_1">Test Environment</h6>
+<ul>
+<li><strong>Auth</strong></li>
+<li>API keys</li>
+</ul>
+<h6 id="dev-environment_1">Dev Environment</h6>
+<ul>
+<li><strong>Auth</strong></li>
+<li>OAuth2 tokens</li>
+</ul>
+<hr />
 
 
 
