@@ -8,9 +8,8 @@ nav:
             - Functional: shared_resources/requirements/functional/index.md
             - Security: shared_resources/requirements/security/index.md
         - Services:
-            - SIEM: 
-                - Overview: shared_resources/services/SIEM/syslog.md
-                - Diagrams: shared_resources/services/SIEM/diagrams/index.md
+            - SIEM: shared_resources/services/SIEM/index.md  # Add an index.md file in your SIEM folder if needed
+            - Syslog: shared_resources/services/syslog.md
     - SystemA:
         - SDD: SystemA/SDD.md
         - subsystemA:
@@ -36,6 +35,8 @@ theme:
 plugins:
     - drawio-exporter:
         drawio_executable: /usr/bin/drawio
+    - search
+    - macros
 
 markdown_extensions:
   - attr_list
