@@ -1,0 +1,18 @@
+- name: Create directory for subsystem
+  file:
+    path: "{{ base_path }}/{{ system_item.name }}/{{ subsystem_item.name }}"
+    state: directory
+
+- name: Create supporting directory for subsystem
+  file:
+    path: "{{ base_path }}/{{ system_item.name }}/{{ subsystem_item.name }}/{{ item }}"
+    state: directory
+  loop: "{{ supporting_folders }}"
+
+
+- name: Include task to create directories for each component
+  include_tasks: create_component_dirs.yml
+  loop: "{{ subsystem_item.components | default([]) }}"
+  loop_control:
+    loop_var: component_item
+  when: component_item is defined

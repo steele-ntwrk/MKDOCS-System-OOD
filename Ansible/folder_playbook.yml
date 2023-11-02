@@ -1,0 +1,16 @@
+---
+- name: Create Nested Directories
+  hosts: localhost
+  gather_facts: no
+  vars_files:
+    - vars/sos_master.yml
+  vars:
+    base_path: "./"  # Define your base path here
+    
+
+  tasks:
+    - name: Include task to create directories for each system
+      include_tasks: create_system_dirs.yml
+      loop: "{{ systems }}"
+      loop_control:
+        loop_var: system_item

@@ -1,0 +1,22 @@
+supporting_folders:
+  - diagrams
+  - supporting documentation
+  - code
+
+
+systems:
+  - name: System 1
+    subsystems:
+      - name: Subsystem 1A
+        components:
+          - name: Component 1A-1
+          - name: Component 1A-2
+      - name: Subsystem 1B
+        components:
+          - name: Component 1B-1
+          - name: Component 1B-2
+          - name: Component 1B-3
+      - name: Subsystem 1C
+        components:
+          - name: Component 1C-1
+          - name: Component 1C-2
