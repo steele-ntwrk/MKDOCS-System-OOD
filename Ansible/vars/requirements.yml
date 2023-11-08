@@ -1,0 +1,45 @@
+---
+requirements:
+  functional:
+    - id: "FR001"
+      description: "Description of functional requirement FR001."
+      detail: "Extended detail about functional requirement FR001."
+      source: "Document or person source for FR001."
+      applicable:
+        system: 
+          - "System A"
+          - "System B"
+        subsystem: 
+          - "Subsystem A1"
+          - "Subsystem B1"
+        component: 
+          - "Component A1-a"
+          - "Component B1-a"
+
+  security:
+    - id: "SR001"
+      description: "Description of security requirement SR001."
+      detail: "Extended detail about security requirement SR001."
+      source: "Document or person source for SR001."
+      applicable:
+        system: 
+          - "System A"
+        subsystem: 
+          - "Subsystem A2"
+        component: 
+          - "Component A2-a"
+
+    - id: "SR002"
+      description: "Description of security requirement SR002."
+      detail: "Extended detail about security requirement SR002."
+      source: "Document or person source for SR002."
+      applicable:
+        system: 
+          - "System B"
+          - "System D"
+        subsystem: 
+          - "Subsystem B2"
+          - "Subsystem D1"
+        component: 
+          - "Component B2-a"
+          - "Component D1-a"

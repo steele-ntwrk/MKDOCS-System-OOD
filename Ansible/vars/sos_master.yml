@@ -7,9 +7,9 @@ supporting_folders:
 systems:
   - name: System 1
     subsystems:
-      - name: Subsystem 1A
+      - name: Security
         components:
-          - name: Component 1A-1
+          - name: MFA
           - name: Component 1A-2
       - name: Subsystem 1B
         components:

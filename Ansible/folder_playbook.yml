@@ -4,6 +4,7 @@
   gather_facts: no
   vars_files:
     - vars/sos_master.yml
+    - vars/requirements.yml
   vars:
     base_path: "./"  # Define your base path here
     
@@ -14,3 +15,8 @@
       loop: "{{ systems }}"
       loop_control:
         loop_var: system_item
+
+    - name: Template the mkdocs.yml file
+      template:
+        src: ./templates/mkdocs.yml.j2
+        dest: mkdocs.yml

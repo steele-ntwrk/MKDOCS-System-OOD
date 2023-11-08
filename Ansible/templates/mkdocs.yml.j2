@@ -1,0 +1,42 @@
+#jinja2: trim_blocks: False
+
+site_name: PLACEHOLDER
+nav:
+{% for system in systems -%}
+  - {{system.name}}:
+  - {{ system.name }}: {{ system.name }}-design.md
+    {% if system.subsystems is defined %}
+    {% for subsystem in system.subsystems -%}
+      - {{ subsystem.name}}:
+      - {{ subsystem.name }}: {{ subsystem.name }}-design.md
+{% if subsystem.components is defined %}
+        {% for component in subsystem.components -%}
+          - {{ component.name }}:
+          - {{ component.name }}: {{ system.name }}/{{ subsystem.name }}/{{ component.name }}-detailed_design.md
+        {% endfor -%}
+    {% endif %}
+    {% endfor -%}
+{% endif %}
+{% endfor -%}
+
+- Requirements: 
+    {% for type, requirements in requirements.items() -%}
+    {{ type.capitalize() }} Requirements:
+        {% for requirement in requirements -%}
+        - {{ requirement.id }} {{requirement.description}}: requirements/{{ type.lower() }}/{{ requirement.id }}.md
+        {% endfor %}
+    {% endfor %}
+
+
+theme:
+  name: material
+
+plugins:
+    - drawio-exporter:
+        drawio_executable: /usr/bin/drawio
+    - search
+    - macros
+
+markdown_extensions:
+  - attr_list
+  - md_in_html
