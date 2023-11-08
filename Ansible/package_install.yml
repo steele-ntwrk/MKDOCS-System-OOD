@@ -1,0 +1,41 @@
+- name: Ensure Python3 pip is present
+  become: yes
+  apt:
+    name: python3-pip
+    state: present
+
+- name: Create a virtual environment for mkdocs and plugins
+  become: yes
+  ansible.builtin.command:
+    cmd: python3 -m venv venv
+  args:
+    creates: venv
+
+- name: Install mkdocs
+  become: yes
+  pip:
+    name: mkdocs
+    state: present
+    executable: /home/matts/MKDOCS-System-OOD/Ansible/venv/bin/pip3
+
+- name: Install mkdocs material theme
+  become: yes
+  pip:
+    name: mkdocs-material
+    state: present
+    executable: /home/matts/MKDOCS-System-OOD/Ansible/venv/bin/pip3
+
+- name: Install mkdocs draw.io-exporter plugin
+  become: yes
+  pip:
+    name: mkdocs-drawio-exporter
+    state: present
+    executable: /home/matts/MKDOCS-System-OOD/Ansible/venv/bin/pip3
+
+- name: Install mkdocs macros plugin
+  become: yes
+  pip:
+    name: mkdocs-macros-plugin
+    state: present
+    executable: /home/matts/MKDOCS-System-OOD/Ansible/venv/bin/pip3
+
