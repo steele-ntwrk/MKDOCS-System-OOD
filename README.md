@@ -1,2 +1,4 @@
 # MKDOCS-System-OOD
-System Object Orientated Documentation
+
+
+Use this command to build the site ``` xvfb-run -a mkdocs build ```

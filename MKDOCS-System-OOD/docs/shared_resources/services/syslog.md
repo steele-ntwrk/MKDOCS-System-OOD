@@ -28,13 +28,17 @@ This has now changed!
 - **Retention and Backup**
   - Log retention: 90 days
   - Off-site backup every 24 hours
-  
+
+<center>
+
 | Parameter          | Value                  |
 |--------------------|------------------------|
 | Syslog Servers     | 2                      |
 | Data Storage       | ElasticSearch Cluster  |
 | Log Retention      | 90 days                |
 | Backup Frequency   | Off-site every 24 hours|
+
+</center>
 
 ###### Test Environment
 
