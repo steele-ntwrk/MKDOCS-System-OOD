@@ -1,7 +1,40 @@
-- name: Create directory for system
+- name: Ensure git is installed
+  become: yes
+  package:
+    name: git
+    state: present
+
+- name: Create directory project
   file:
-    path: "{{ base_path }}/{{ system_item.name }}"
+    path: "{{ base_path }}/{{ project_name }}"
     state: directory
+
+- name: Set global Git user name
+  git_config:
+    name: user.name
+    value: "{{ git_username }}"
+    scope: global
+
+- name: Set global Git user email
+  git_config:
+    name: user.email
+    value: "{{ git_email }}"
+    scope: global
+
+- name: Initialize the local Git repository
+  command: git init
+  args:
+    chdir: "{{ base_path }}/{{ project_name }}"
+  register: project_path
+
+- name: Add the remote repository
+  git:
+    repo: "{{ mkdocs_repo_url }}"
+    dest: "{{ project_path }}"
+    version: "main"  # or your default branch name
+    accept_hostkey: yes  # if you want to auto-accept the hostkey (not recommended for production)
+    key_file: "/path/to/your/private/key"  # specify your SSH private key file
+    force: yes  # use with caution, this can overwrite local changes
 
 - name: Create directory for system
   file:
