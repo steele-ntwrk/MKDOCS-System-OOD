@@ -1,6 +1,6 @@
 ---
 mkdocs_dev_host: 192.168.40.99
 mkdocs_path: ./
-program_name: test program
-url: https://testprogram.com
+project_name: projectX
+url: system
 mkdocs_repo_url:

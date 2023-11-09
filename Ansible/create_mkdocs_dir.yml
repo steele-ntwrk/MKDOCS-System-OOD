@@ -9,6 +9,11 @@
     path: "{{ base_path }}/{{ project_name }}"
     state: directory
 
+-- name: Create directory project
+  file:
+    path: "{{ base_path }}/{{ project_name }}/docs"
+    state: directory
+
 - name: Set global Git user name
   git_config:
     name: user.name
@@ -33,7 +38,7 @@
     dest: "{{ project_path }}"
     version: "main"  # or your default branch name
     accept_hostkey: yes  # if you want to auto-accept the hostkey (not recommended for production)
-    key_file: "/path/to/your/private/key"  # specify your SSH private key file
+    key_file: "/home/matts/.ssh/id_rsa"  # specify your SSH private key file
     force: yes  # use with caution, this can overwrite local changes
 
 - name: Create directory for system
