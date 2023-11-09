@@ -39,3 +39,64 @@
     state: present
     executable: /home/matts/MKDOCS-System-OOD/Ansible/venv/bin/pip3
 
+- name: Install draw.io
+  block:
+    - name: Update and upgrade APT packages
+      become: yes
+      apt:
+        update_cache: yes
+        upgrade: yes
+
+    - name: Install wget and curl
+      become: yes
+      apt:
+        name:
+          - wget
+          - curl
+        state: present
+
+    - name: Get the latest draw.io release URL and download .deb package
+      become: yes
+      ansible.builtin.shell: |
+        curl -s https://api.github.com/repos/jgraph/drawio-desktop/releases/latest | 
+        grep browser_download_url | 
+        grep '\.deb' | 
+        cut -d '"' -f 4 | 
+        wget -i - -O /tmp/drawio-amd64.deb
+      args:
+        executable: /bin/bash
+      register: wget_output
+      failed_when: wget_output.rc != 0 or 'No such file' in wget_output.stderr
+
+    - name: Ensure desktop-file-utils is installed
+      become: yes
+      apt:
+        name: desktop-file-utils
+        state: present
+
+    - name: Install draw.io package using dpkg
+      become: yes
+      ansible.builtin.command:
+        cmd: "dpkg -i /tmp/drawio-amd64.deb"
+      register: dpkg_result
+      failed_when: "'Errors were encountered while processing' in dpkg_result.stderr or dpkg_result.rc != 0"
+      changed_when: "'Setting up draw.io' in dpkg_result.stdout or 'Unpacking draw.io' in dpkg_result.stdout"
+      ignore_errors: yes
+
+    - name: Verify draw.io installation
+      become: yes
+      command: dpkg -s draw.io
+      register: verify_install
+      changed_when: false
+
+    - name: Output installation verification
+      debug:
+        var: verify_install.stdout_lines
+
+    - name: Install additional required packages
+      become: yes
+      apt:
+        name:
+          - libasound2
+          - xvfb
+        state: present

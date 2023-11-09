@@ -3,17 +3,22 @@
   hosts: localhost
   gather_facts: no
   vars_files:
+    - vars/mkdocs_build.yml
     - vars/sos_master.yml
     - vars/requirements.yml
+    - secret.yml
   vars:
     base_path: "./"  # Define your base path here
 
   tasks:
 
+    - name: Create mkdocs directory
+      include_tasks: create_mkdocs_dir.yml
+
     - name: Install Packages
       include_tasks: package_install.yml
 
-    - name: Include task to create directories for each system
+    - name: Include task to create directories/files for each system,subsystem and compontent
       include_tasks: create_system_dirs.yml
       loop: "{{ systems }}"
       loop_control:
