@@ -9,7 +9,7 @@
     path: "{{ base_path }}/{{ project_name }}"
     state: directory
 
--- name: Create directory project
+- name: Create mkdocs docs dir
   file:
     path: "{{ base_path }}/{{ project_name }}/docs"
     state: directory
@@ -30,13 +30,50 @@
   command: git init
   args:
     chdir: "{{ base_path }}/{{ project_name }}"
-  register: project_path
+
+- name: Register project path
+  set_fact:
+    project_path: "{{ base_path }}/{{ project_name }}"
+
+- name: Check if origin remote exists
+  command: git remote
+  register: git_remote
+  ignore_errors: yes
+  args:
+    chdir: "{{ project_path }}"
+
+- name: Add remote repository
+  command: git remote add origin git@github.com:steele-ntwrk/test_oob.git
+  args:
+    chdir: "{{ base_path }}/{{ project_name }}"
+  register: add_remote
+  failed_when: add_remote.rc != 0 and 'remote origin already exists' not in add_remote.stderr
+
+- name: Create the main branch if it doesn't exist
+  command: git checkout -b main
+  args:
+    chdir: "{{ base_path }}/{{ project_name }}"
+  register: branch_created
+  ignore_errors: yes
+
+- name: Commit an empty commit to the main branch if just created
+  command: git commit --allow-empty -m "Initial commit"
+  args:
+    chdir: "{{ base_path }}/{{ project_name }}"
+  when: branch_created is changed
+
+- name: Push the main branch if just created
+  command: git push -u origin main
+  args:
+    chdir: "{{ base_path }}/{{ project_name }}"
+  when: add_remote is changed
 
 - name: Add the remote repository
   git:
     repo: "{{ mkdocs_repo_url }}"
-    dest: "{{ project_path }}"
+    dest: "{{ base_path }}/{{ project_name }}"
     version: "main"  # or your default branch name
+    remote: origin
     accept_hostkey: yes  # if you want to auto-accept the hostkey (not recommended for production)
     key_file: "/home/matts/.ssh/id_rsa"  # specify your SSH private key file
     force: yes  # use with caution, this can overwrite local changes

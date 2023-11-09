@@ -3,4 +3,5 @@ mkdocs_dev_host: 192.168.40.99
 mkdocs_path: ./
 project_name: projectX
 url: system
-mkdocs_repo_url:
+mkdocs_repo_url: git@github.com:steele-ntwrk/test_oob.git
+venv_location: 
