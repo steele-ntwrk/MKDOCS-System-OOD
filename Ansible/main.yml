@@ -8,7 +8,7 @@
     - vars/requirements.yml
     - secret.yml
   vars:
-    base_path: "./"  # Define your base path here
+    base_path: "/home/matts/"  # Define your base path here
 
   tasks:
 

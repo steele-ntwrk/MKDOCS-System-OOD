@@ -1,11 +1,11 @@
 - name: Create directory for system
   file:
-    path: "{{ base_path }}/{{ system_item.name }}"
+    path: "{{ base_path }}/{{project_name}}/docs/{{ system_item.name }}"
     state: directory
 
 - name: Create directory for system
   file:
-    path: "{{ base_path }}/{{ system_item.name }}/{{ item }}"
+    path: "{{ base_path }}/{{project_name}}/docs/{{ system_item.name }}/{{ item }}"
     state: directory
   loop: "{{ supporting_folders }}"
 

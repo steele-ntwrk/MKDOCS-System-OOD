@@ -55,6 +55,11 @@
           - curl
         state: present
 
+    - name: Check if draw.io is installed
+      ansible.builtin.command: which drawio
+      register: drawio_installed
+      ignore_errors: yes
+
     - name: Get the latest draw.io release URL and download .deb package
       become: yes
       ansible.builtin.shell: |
@@ -67,6 +72,7 @@
         executable: /bin/bash
       register: wget_output
       failed_when: wget_output.rc != 0 or 'No such file' in wget_output.stderr
+      when: drawio_installed is failed
 
     - name: Ensure desktop-file-utils is installed
       become: yes
@@ -82,6 +88,7 @@
       failed_when: "'Errors were encountered while processing' in dpkg_result.stderr or dpkg_result.rc != 0"
       changed_when: "'Setting up draw.io' in dpkg_result.stdout or 'Unpacking draw.io' in dpkg_result.stdout"
       ignore_errors: yes
+      when: drawio_installed is failed
 
     - name: Verify draw.io installation
       become: yes

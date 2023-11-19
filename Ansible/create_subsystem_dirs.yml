@@ -1,11 +1,11 @@
 - name: Create directory for subsystem
   file:
-    path: "{{ base_path }}/{{ system_item.name }}/{{ subsystem_item.name }}"
+    path: "{{ base_path }}/{{project_name}}/docs/{{ system_item.name }}/{{ subsystem_item.name }}"
     state: directory
 
 - name: Create supporting directory for subsystem
   file:
-    path: "{{ base_path }}/{{ system_item.name }}/{{ subsystem_item.name }}/{{ item }}"
+    path: "{{ base_path }}/{{project_name}}/docs/{{ system_item.name }}/{{ subsystem_item.name }}/{{ item }}"
     state: directory
   loop: "{{ supporting_folders }}"
 

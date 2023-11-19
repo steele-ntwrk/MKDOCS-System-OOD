@@ -4,14 +4,18 @@
     name: git
     state: present
 
-- name: Create directory project
+- name: Set project path
+  set_fact:
+    project_path: "{{ base_path }}/{{ project_name }}"
+
+- name: Create project directory
   file:
-    path: "{{ base_path }}/{{ project_name }}"
+    path: "{{ project_path }}"
     state: directory
 
-- name: Create mkdocs docs dir
+- name: Create mkdocs docs directory
   file:
-    path: "{{ base_path }}/{{ project_name }}/docs"
+    path: "{{ project_path }}/docs"
     state: directory
 
 - name: Set global Git user name
@@ -26,67 +30,50 @@
     value: "{{ git_email }}"
     scope: global
 
-- name: Initialize the local Git repository
+- name: Check if remote repository exists
+  command: git ls-remote {{ mkdocs_repo_url }}
+  register: remote_repo_exists
+  ignore_errors: yes
+
+- name: Clone the remote repository if it exists
+  git:
+    repo: "{{ mkdocs_repo_url }}"
+    dest: "{{ project_path }}"
+    version: main
+    accept_hostkey: yes
+    key_file: "/home/matts/.ssh/id_rsa"
+  when: remote_repo_exists.rc == 0
+  ignore_errors: yes
+  register: git_clone
+
+- name: Initialize the local Git repository if clone failed or remote does not exist
   command: git init
   args:
-    chdir: "{{ base_path }}/{{ project_name }}"
+    chdir: "{{ project_path }}"
+  when: remote_repo_exists.rc != 0 or git_clone is failed
+  register: git_init
 
-- name: Register project path
-  set_fact:
-    project_path: "{{ base_path }}/{{ project_name }}"
-
-- name: Check if origin remote exists
-  command: git remote
-  register: git_remote
-  ignore_errors: yes
+- name: Add remote repository if it doesn't exist
+  command: git remote add origin {{ mkdocs_repo_url }}
   args:
     chdir: "{{ project_path }}"
-
-- name: Add remote repository
-  command: git remote add origin git@github.com:steele-ntwrk/test_oob.git
-  args:
-    chdir: "{{ base_path }}/{{ project_name }}"
-  register: add_remote
-  failed_when: add_remote.rc != 0 and 'remote origin already exists' not in add_remote.stderr
+  when: remote_repo_exists.rc != 0 or git_clone is failed
 
 - name: Create the main branch if it doesn't exist
   command: git checkout -b main
   args:
-    chdir: "{{ base_path }}/{{ project_name }}"
+    chdir: "{{ project_path }}"
+  when: remote_repo_exists.rc != 0 or git_clone is failed
   register: branch_created
-  ignore_errors: yes
 
 - name: Commit an empty commit to the main branch if just created
   command: git commit --allow-empty -m "Initial commit"
   args:
-    chdir: "{{ base_path }}/{{ project_name }}"
+    chdir: "{{ project_path }}"
   when: branch_created is changed
 
 - name: Push the main branch if just created
   command: git push -u origin main
   args:
-    chdir: "{{ base_path }}/{{ project_name }}"
-  when: add_remote is changed
-
-- name: Add the remote repository
-  git:
-    repo: "{{ mkdocs_repo_url }}"
-    dest: "{{ base_path }}/{{ project_name }}"
-    version: "main"  # or your default branch name
-    remote: origin
-    accept_hostkey: yes  # if you want to auto-accept the hostkey (not recommended for production)
-    key_file: "/home/matts/.ssh/id_rsa"  # specify your SSH private key file
-    force: yes  # use with caution, this can overwrite local changes
-
-- name: Create directory for system
-  file:
-    path: "{{ base_path }}/{{ system_item.name }}/{{ item }}"
-    state: directory
-  loop: "{{ supporting_folders }}"
-
-- name: Include task to create directories for each subsystem
-  include_tasks: create_subsystem_dirs.yml
-  loop: "{{ system_item.subsystems | default([]) }}"
-  loop_control:
-    loop_var: subsystem_item
-  when: subsystem_item is defined
+    chdir: "{{ project_path }}"
+  when: branch_created is changed
