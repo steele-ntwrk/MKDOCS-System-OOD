@@ -13,11 +13,6 @@
     path: "{{ project_path }}"
     state: directory
 
-- name: Create mkdocs docs directory
-  file:
-    path: "{{ project_path }}/docs"
-    state: directory
-
 - name: Set global Git user name
   git_config:
     name: user.name
@@ -43,8 +38,16 @@
     accept_hostkey: yes
     key_file: "/home/matts/.ssh/id_rsa"
   when: remote_repo_exists.rc == 0
+  async: 30
+  poll: 6
   ignore_errors: yes
   register: git_clone
+
+- name: Create mkdocs docs directory
+  file:
+    path: "{{ project_path }}/docs"
+    state: directory
+  when: remote_repo_exists.rc != 0
 
 - name: Initialize the local Git repository if clone failed or remote does not exist
   command: git init

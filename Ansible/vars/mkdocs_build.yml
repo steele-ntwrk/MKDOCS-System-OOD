@@ -4,4 +4,4 @@ mkdocs_path: ./
 project_name: projectX
 url: system
 mkdocs_repo_url: git@github.com:steele-ntwrk/test_oob.git
-venv_location: 
+base_path: "/home/matts/"  # Define your base path here

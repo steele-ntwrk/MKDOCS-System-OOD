@@ -7,37 +7,37 @@
 - name: Create a virtual environment for mkdocs and plugins
   become: yes
   ansible.builtin.command:
-    cmd: python3 -m venv venv
+    cmd: python3 -m venv {{ base_path }}/{{ project_name }}/venv
   args:
-    creates: venv
+    creates: "{{ base_path }}/{{ project_name }}/venv"
 
 - name: Install mkdocs
   become: yes
   pip:
     name: mkdocs
     state: present
-    executable: /home/matts/MKDOCS-System-OOD/Ansible/venv/bin/pip3
+    executable: "{{ base_path }}/{{ project_name }}/venv/bin/pip3"
 
 - name: Install mkdocs material theme
   become: yes
   pip:
     name: mkdocs-material
     state: present
-    executable: /home/matts/MKDOCS-System-OOD/Ansible/venv/bin/pip3
+    executable: "{{ base_path }}/{{ project_name }}/venv/bin/pip3"
 
 - name: Install mkdocs draw.io-exporter plugin
   become: yes
   pip:
     name: mkdocs-drawio-exporter
     state: present
-    executable: /home/matts/MKDOCS-System-OOD/Ansible/venv/bin/pip3
+    executable: "{{ base_path }}/{{ project_name }}/venv/bin/pip3"
 
 - name: Install mkdocs macros plugin
   become: yes
   pip:
     name: mkdocs-macros-plugin
     state: present
-    executable: /home/matts/MKDOCS-System-OOD/Ansible/venv/bin/pip3
+    executable: "{{ base_path }}/{{ project_name }}/venv/bin/pip3"
 
 - name: Install draw.io
   block:
