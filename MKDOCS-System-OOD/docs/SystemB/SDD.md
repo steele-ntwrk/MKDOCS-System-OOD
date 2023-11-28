@@ -1,1 +1,0 @@
-# SystemB System Design Documentation
