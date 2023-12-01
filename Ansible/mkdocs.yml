@@ -3,7 +3,7 @@ site_name: PLACEHOLDER
 site_url: http://192.168.40.99
 nav:
 - System 1:
-    - System 1: System 1-design.md
+    - System 1: "System_1/System_1-design.md"
     
     - Security:
         - Security: Security-design.md

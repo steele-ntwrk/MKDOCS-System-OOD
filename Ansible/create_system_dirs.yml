@@ -3,11 +3,17 @@
     path: "{{ base_path }}/{{project_name}}/docs/{{ system_item.name }}"
     state: directory
 
-- name: Create directory for system
+- name: Create directory for common images
+  template:
+    src: "templates/detailed_design.md.j2"
+    dest: "{{ base_path }}/{{project_name}}/docs/{{ system_item.name }}.md"
+  tags:
+    - rerun_system_dirs
+
+- name: Create system details design file
   file:
-    path: "{{ base_path }}/{{project_name}}/docs/{{ system_item.name }}/{{ item }}"
+    path: "{{ base_path }}/{{project_name}}/docs/{{ system_item.name }}"
     state: directory
-  loop: "{{ supporting_folders }}"
 
 - name: Include task to create directories for each subsystem
   include_tasks: create_subsystem_dirs.yml

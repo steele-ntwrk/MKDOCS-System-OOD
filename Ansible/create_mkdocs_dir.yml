@@ -30,19 +30,6 @@
   register: remote_repo_exists
   ignore_errors: yes
 
-- name: Clone the remote repository if it exists
-  git:
-    repo: "{{ mkdocs_repo_url }}"
-    dest: "{{ project_path }}"
-    version: main
-    accept_hostkey: yes
-    key_file: "/home/matts/.ssh/id_rsa"
-  when: remote_repo_exists.rc == 0
-  async: 30
-  poll: 6
-  ignore_errors: yes
-  register: git_clone
-
 - name: Create mkdocs docs directory
   file:
     path: "{{ project_path }}/docs"
@@ -53,30 +40,52 @@
   command: git init
   args:
     chdir: "{{ project_path }}"
-  when: remote_repo_exists.rc != 0 or git_clone is failed
   register: git_init
 
-- name: Add remote repository if it doesn't exist
-  command: git remote add origin {{ mkdocs_repo_url }}
-  args:
-    chdir: "{{ project_path }}"
-  when: remote_repo_exists.rc != 0 or git_clone is failed
+- name: Create gitignore
+  copy:
+    dest: "{{ project_path }}/.gitignore"
+    content: |
+      venv/
 
-- name: Create the main branch if it doesn't exist
-  command: git checkout -b main
+- name: Commit an empty commit to the main branch if just created
+  command: git add .gitignore
   args:
     chdir: "{{ project_path }}"
-  when: remote_repo_exists.rc != 0 or git_clone is failed
-  register: branch_created
 
 - name: Commit an empty commit to the main branch if just created
   command: git commit --allow-empty -m "Initial commit"
   args:
     chdir: "{{ project_path }}"
-  when: branch_created is changed
+
+- name: Create the main branch if it doesn't exist
+  command: git branch -M main
+  args:
+    chdir: "{{ project_path }}"
+
+- name: Add remote repository 
+  command: git remote add origin {{ mkdocs_repo_url }}
+  args:
+    chdir: "{{ project_path }}"
+  ignore_errors: yes
 
 - name: Push the main branch if just created
   command: git push -u origin main
   args:
     chdir: "{{ project_path }}"
-  when: branch_created is changed
+  register: git_push
+  ignore_errors: yes
+
+- name: Pull from remote and merge if push failed
+  command: git pull origin main
+  args:
+    chdir: "{{ project_path }}"
+  when: git_push is failed
+
+- name: Retry pushing the main branch
+  command: git push -u origin main
+  args:
+    chdir: "{{ project_path }}"
+  when: git_push is failed
+
+
