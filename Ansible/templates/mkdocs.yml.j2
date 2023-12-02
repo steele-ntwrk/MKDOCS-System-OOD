@@ -5,11 +5,11 @@ site_url: http://192.168.40.99
 nav:
 {% for system in systems -%}
   - {{system.name}}:
-    - {{ system.name }}: {{ system.name }}-design.md
+    - {{ system.name }}: {{ system.name }}/{{ system.name }}-detailed_design.md
     {% if system.subsystems is defined %}
     {% for subsystem in system.subsystems -%}
       - {{ subsystem.name}}:
-        - {{ subsystem.name }}: {{ subsystem.name }}-design.md
+        - {{ subsystem.name }}: {{ system.name }}/{{ subsystem.name }}/{{ subsystem.name }}-detailed_design.md
         {% if subsystem.components is defined %}
         {% for component in subsystem.components -%}
           - {{ component.name }}:

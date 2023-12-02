@@ -5,8 +5,8 @@
 
 - name: Create directory for common images
   template:
-    src: "templates/detailed_design.md.j2"
-    dest: "{{ base_path }}/{{project_name}}/docs/{{ system_item.name }}/{{ system_item.name }}.md"
+    src: "templates/system_detailed_design.md.j2"
+    dest: "{{ base_path }}/{{project_name}}/docs/{{ system_item.name }}/{{ system_item.name }}-detailed_design.md"
   tags:
     - rerun_system_dirs
 

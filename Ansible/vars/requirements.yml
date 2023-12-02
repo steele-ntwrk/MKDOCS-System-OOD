@@ -7,7 +7,7 @@ requirements:
       source: "Document or person source for FR001."
       applicable:
         system: 
-          - "System A"
+          - "System 1"
           - "System B"
         subsystem: 
           - "Subsystem A1"

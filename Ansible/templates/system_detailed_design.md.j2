@@ -1,0 +1,49 @@
+---
+Template_Version: 1.0
+Document_Version: 
+Author: 
+Classification:
+---
+
+{% raw %}
+Template version {{ Version }}<br>
+Author: {{ Author }}<br>
+Classification: {{ Classification }}<br>
+{% endraw %}
+
+![Company Logo](/common_images/companylogo.png)
+
+
+# System Detailed Design: {{ system_item.name }}
+
+- **Date**: Insert Date
+- **Author**: Insert Author
+
+## System Overview
+System overview description goes here.
+
+## Design Goals
+- Design goal 1
+- Design goal 2
+- Design goal 3
+
+## Architecture
+Brief description of the system architecture.
+
+## Adherence to Requirements
+Description of how the system adheres to the initial requirements.
+
+## High-Level Subsystem Overview
+{% for subsystem in system_item.subsystems %}
+- **{{ subsystem.name }}**: Brief description
+{% endfor %}
+
+## System-Specific Functional Requirements
+
+| ID | Description | Detail | Source |
+| --- | --- | --- | --- |
+{% for requirement in requirements.functional %}
+{% if system_item.name in requirement.applicable.system -%}
+| {{ requirement.id }} | {{ requirement.description }} | {{ requirement.detail }} | {{ requirement.source }} |
+{% endif %}
+{% endfor %}
