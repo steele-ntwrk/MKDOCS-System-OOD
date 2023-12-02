@@ -6,8 +6,6 @@ Classification: Unclassified
 
 ![Company Logo](/common_images/companylogo.png)
 
-# {{ system_item.name }}
-
 {% raw %}
 Template version {{ Version }}<br>
 Author: {{ Author }}<br>
@@ -32,6 +30,6 @@ Description of the subsystem architecture.
 Explanation of how this subsystem integrates with the overall system.
 
 ## Component Summary
-- Component 1: Brief description
-- Component 2: Brief description
-- Component 3: Brief description
+{% for component in subsystem_item.components %}
+- **{{ component.name }}**: Brief description
+{% endfor %}

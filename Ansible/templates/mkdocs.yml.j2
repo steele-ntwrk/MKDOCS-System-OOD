@@ -13,7 +13,7 @@ nav:
         {% if subsystem.components is defined %}
         {% for component in subsystem.components -%}
           - {{ component.name }}:
-            - {{ component.name }}: {{ system.name }}/{{ subsystem.name }}/{{ component.name }}-detailed_design.md
+            - {{ component.name }}: {{ system.name }}/{{ subsystem.name }}/{{ component.name }}/{{ component.name }}-detailed_design.md
         {% endfor -%}
         {% endif %}
     {% endfor -%}
