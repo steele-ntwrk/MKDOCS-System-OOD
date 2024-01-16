@@ -30,6 +30,13 @@
   register: remote_repo_exists
   ignore_errors: yes
 
+- name: Clone repository if it exists
+  git:
+    repo: "{{ mkdocs_repo_url }}"
+    dest: "{{ project_path }}"
+    force: yes
+  when: remote_repo_exists.rc == 0
+
 - name: Create mkdocs docs directory
   file:
     path: "{{ project_path }}/docs"
@@ -41,33 +48,34 @@
   args:
     chdir: "{{ project_path }}"
   register: git_init
+  when: remote_repo_exists.rc != 0
 
 - name: Create gitignore
   copy:
     dest: "{{ project_path }}/.gitignore"
     content: |
       venv/
+  when: remote_repo_exists.rc != 0
 
-- name: Commit an empty commit to the main branch if just created
-  command: git add .gitignore
-  args:
-    chdir: "{{ project_path }}"
 
 - name: Commit an empty commit to the main branch if just created
   command: git commit --allow-empty -m "Initial commit"
   args:
     chdir: "{{ project_path }}"
+  when: remote_repo_exists.rc != 0
 
 - name: Create the main branch if it doesn't exist
   command: git branch -M main
   args:
     chdir: "{{ project_path }}"
+  when: remote_repo_exists.rc != 0
 
 - name: Add remote repository 
   command: git remote add origin {{ mkdocs_repo_url }}
   args:
     chdir: "{{ project_path }}"
   ignore_errors: yes
+  when: remote_repo_exists.rc != 0
 
 - name: Push the main branch if just created
   command: git push -u origin main
@@ -75,17 +83,31 @@
     chdir: "{{ project_path }}"
   register: git_push
   ignore_errors: yes
+  when: remote_repo_exists.rc != 0
 
-- name: Pull from remote and merge if push failed
-  command: git pull origin main
-  args:
-    chdir: "{{ project_path }}"
-  when: git_push is failed
-
-- name: Retry pushing the main branch
+- name: Push the main branch if just created
   command: git push -u origin main
   args:
     chdir: "{{ project_path }}"
-  when: git_push is failed
+  ignore_errors: yes
+  when: remote_repo_exists.rc != 0
 
+# Branch levels are not used at this time
 
+#- name: Loop through branch levels
+#  command: git branch {{ item }}
+#  args:
+#    chdir: "{{ project_path }}"
+#  loop: "{{ branch_levels }}"
+#  register: branch_list
+#  changed_when: false
+#  ignore_errors: yes
+#
+#- name: Create and push branches
+#  block:
+#    - name: Checkout branch
+#      command: git checkout {{ item }} && git push --set-upstream origin {{ item }}
+#      args:
+#        chdir: "{{ project_path }}"
+#      loop: "{{ branch_levels }}"
+#

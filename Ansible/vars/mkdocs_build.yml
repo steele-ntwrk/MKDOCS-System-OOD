@@ -1,8 +1,14 @@
 ---
 mkdocs_dev_host: 192.168.40.99
-mkdocs_path: ./
+mkdocs_path: ./ # Define your localhost mkdocs path here
 project_name: projectX
 company_name: Steele Networks
 url: system
 mkdocs_repo_url: git@github.com:steele-ntwrk/test_oob.git
-base_path: "/home/matts/"  # Define your base path here
+base_path: "/home/matts/"  # Define your localhost base path here
+# branch levels not currently used
+#branch_levels:
+#  - DEV
+#  - TEST
+#  - Internal
+#  - External

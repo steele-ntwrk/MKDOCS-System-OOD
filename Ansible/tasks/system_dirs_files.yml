@@ -11,7 +11,7 @@
     - rerun_system_dirs
 
 - name: Include task to create directories for each subsystem
-  include_tasks: create_subsystem_dirs.yml
+  include_tasks: subsystem_dirs_files.yml
   loop: "{{ system_item.subsystems | default([]) }}"
   loop_control:
     loop_var: subsystem_item

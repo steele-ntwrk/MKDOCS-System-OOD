@@ -18,7 +18,7 @@
 
 
 - name: Include task to create directories for each component
-  include_tasks: create_component_dirs.yml
+  include_tasks: component_dirs_files.yml
   loop: "{{ subsystem_item.components | default([]) }}"
   loop_control:
     loop_var: component_item

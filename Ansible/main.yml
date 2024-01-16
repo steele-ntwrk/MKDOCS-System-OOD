@@ -6,12 +6,12 @@
     - vars/mkdocs_build.yml
     - vars/sos_master.yml
     - vars/requirements.yml
-    - secret.yml
+    - vars/secret.yml
 
   tasks:
 
     - name: Create mkdocs directory
-      include_tasks: create_mkdocs_dir.yml
+      include_tasks: tasks/create_mkdocs_dir.yml
 
     - name: Create directory for common images
       file:
@@ -20,14 +20,14 @@
       tags: create_images_dir
 
     - name: Include task to create directories/files for each system,subsystem and compontent
-      include_tasks: create_system_dirs.yml
+      include_tasks: tasks/system_dirs_files.yml
       loop: "{{ systems }}"
       loop_control:
         loop_var: system_item
       tags: rerun_system_dirs
 
     - name: Install Packages
-      include_tasks: package_install.yml
+      include_tasks: tasks/package_install.yml
 
     - name: Template the mkdocs.yml file
       template:
