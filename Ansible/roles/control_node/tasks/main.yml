@@ -1,0 +1,40 @@
+---
+
+- name: Create mkdocs directory
+  include_tasks: create_mkdocs_dir.yml
+
+- name: Create directory for common images
+  file:
+    path: "{{ base_path }}/{{project_name}}/docs/common_images"
+    state: directory
+  tags: create_images_dir
+
+- name: Include task to create directories/files for each system, subsystem, and component
+  include_tasks: system_dirs_files.yml
+  loop: "{{ systems }}"
+  loop_control:
+    loop_var: system_item
+  tags: rerun_system_dirs
+
+- name: Install Packages
+  include_tasks: package_install.yml
+
+- name: Template the mkdocs.yml file
+  template:
+    src: templates/mkdocs.yml.j2
+    dest: "{{ base_path }}/{{project_name}}/mkdocs.yml"
+  tags: mkdocs_template
+
+- name: Add all files in directory to git tracking
+  command: git add .
+  args:
+    chdir: "{{ project_path }}"
+
+- name: Commit change
+  command: git commit --allow-empty -m "new or automated update"
+
+- name: Push update to remote repository
+  command: git push --force origin main
+  args:
+    chdir: "{{ project_path }}"
+  register: git_push

@@ -3,7 +3,7 @@
     path: "{{ base_path }}/{{project_name}}/docs/{{ system_item.name }}/{{ subsystem_item.name }}/{{ component_item.name }}"
     state: directory
 
-- name: Create subsystem detail design file
+- name: Create component detail design file
   template:
     src: "templates/component_detailed_design.md.j2"
     dest: "{{ base_path }}/{{project_name}}/docs/{{ system_item.name }}/{{ subsystem_item.name }}/{{ component_item.name }}/{{ component_item.name }}-detailed_design.md"

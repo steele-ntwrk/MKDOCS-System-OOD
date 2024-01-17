@@ -1,3 +1,8 @@
+- name: Render index.md template
+  template:
+    src: "templates/index.md.j2"
+    dest: "{{ base_path }}/{{project_name}}/docs/index.md"
+
 - name: Create directory for system
   file:
     path: "{{ base_path }}/{{project_name}}/docs/{{ system_item.name }}"

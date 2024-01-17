@@ -1,9 +1,3 @@
-- name: Check if remote repository exists
-  command: git ls-remote {{ mkdocs_repo_url }}
-  register: remote_repo_exists
-  ignore_errors: yes
-
-
 - name: Add all files in directory to git tracking
   command: git add .
   args:
@@ -18,6 +12,5 @@
   args:
     chdir: "{{ project_path }}"
   register: git_push
-  ignore_errors: yes
 
 

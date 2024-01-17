@@ -3,30 +3,31 @@
 site_name: PLACEHOLDER
 site_url: http://192.168.40.99
 nav:
+- Home: index.md
 {% for system in systems -%}
   - {{system.name}}:
     - {{ system.name }}: {{ system.name }}/{{ system.name }}-detailed_design.md
-    {% if system.subsystems is defined %}
-    {% for subsystem in system.subsystems -%}
+    {%- if system.subsystems is defined %}
+    {%- for subsystem in system.subsystems %}
       - {{ subsystem.name}}:
         - {{ subsystem.name }}: {{ system.name }}/{{ subsystem.name }}/{{ subsystem.name }}-detailed_design.md
-        {% if subsystem.components is defined %}
-        {% for component in subsystem.components -%}
+        {%- if subsystem.components is defined %}
+        {%- for component in subsystem.components %}
           - {{ component.name }}:
             - {{ component.name }}: {{ system.name }}/{{ subsystem.name }}/{{ component.name }}/{{ component.name }}-detailed_design.md
-        {% endfor -%}
-        {% endif %}
-    {% endfor -%}
-    {% endif %}
-{% endfor -%}
+        {%- endfor %}
+        {%- endif %}
+    {%- endfor %}
+    {%- endif %}
+{%- endfor %}
 
 - Requirements: 
-    {% for type, requirements in requirements.items() -%}
+    {%- for type, requirements in requirements.items() %}
     - {{ type.capitalize() }} Requirements:
-        {% for requirement in requirements -%}
+        {%- for requirement in requirements %}
         - {{ requirement.id }} {{requirement.description}}: requirements/{{ type.lower() }}/{{ requirement.id }}.md
-        {% endfor %}
-    {% endfor %}
+        {%- endfor %}
+    {%- endfor %}
 
 theme:
   name: material

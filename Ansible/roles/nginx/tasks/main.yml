@@ -1,44 +1,68 @@
 ---
-- hosts: all
+
+- name: Update apt cache and install Nginx
+  apt:
+    name: nginx
+    state: latest
+    update_cache: yes
+
+- name: Ensure git is installed
   become: yes
-  vars:
-    server_name: "{{ ansible_default_ipv4.address }}"
-    document_root: /var/www
-    app_root: html_demo_site-main
-  tasks:
-    - name: Update apt cache and install Nginx
-      apt:
-        name: nginx
-        state: latest
-        update_cache: yes
+  package:
+    name: git
+    state: present
+    use: apt
 
-    - name: Copy website files to the server's document root
-      copy:
-        src: "{{ app_root }}"
-        dest: "{{ document_root }}"
-        mode: preserve
+- name: Set project path
+  set_fact:
+    project_path: "{{ base_path }}/{{ project_name }}"
 
-    - name: Apply Nginx template
-      template:
-        src: files/nginx.conf.j2
-        dest: /etc/nginx/sites-available/default
-      notify: Restart Nginx
+- name: Create project directory
+  file:
+    path: "{{ project_path }}"
+    state: directory
 
-    - name: Enable new site
-      file:
-        src: /etc/nginx/sites-available/default
-        dest: /etc/nginx/sites-enabled/default
-        state: link
-      notify: Restart Nginx
+- name: Set global Git user name
+  git_config:
+    name: user.name
+    value: "{{ git_username }}"
+    scope: global
 
-    - name: Allow all access to tcp port 80
-      ufw:
-        rule: allow
-        port: '80'
-        proto: tcp
+- name: Set global Git user email
+  git_config:
+    name: user.email
+    value: "{{ git_email }}"
+    scope: global
 
-  handlers:
-    - name: Restart Nginx
-      service:
-        name: nginx
-        state: restarted
+- name: Creates .ssh directory for root
+  file: path=/root/.ssh state=directory
+
+- name: Correct SSH deploy key permissions
+  file: dest=/root/.ssh/github mode=0600
+
+- name: Attempt to clone repository
+  git:
+    repo: "{{ mkdocs_repo_url }}"
+    dest: "{{ project_path }}"
+    force: yes
+    key_file: /root/.ssh/id_rsa
+  register: git_clone
+
+- name: Apply Nginx template
+  template:
+    src: nginx.conf.j2
+    dest: /etc/nginx/sites-available/default
+  notify: restart nginx
+
+- name: Enable new site
+  file:
+    src: /etc/nginx/sites-available/default
+    dest: /etc/nginx/sites-enabled/default
+    state: link
+  notify: restart nginx
+
+- name: Allow all access to tcp port 8080
+  ufw:
+    rule: allow
+    port: '8080'
+    proto: tcp

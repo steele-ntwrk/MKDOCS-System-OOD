@@ -1,0 +1,4 @@
+server_name: "{{ inventory_hostname }}"
+remote_site_path: "{{ project_path }}"
+local_site_path: /usr/local/share/nginx/site
+app_root: "{{ project_name }}"
