@@ -4,11 +4,19 @@
     chdir: "{{ project_path }}"
 
 - name: Commit change
-  command: git commit --allow-empty -m "new update"
+  command: git commit --allow-empty -m "new or automated update"
+  args:
+    chdir: "{{ project_path }}"
 
 
 - name: Push update to remote repository
-  command: git push 
+  command: git push --set-upstream origin main
+  args:
+   chdir: "{{ project_path }}"
+  register: git_push
+
+- name: Push update to remote repository
+  command: git push --force origin main
   args:
     chdir: "{{ project_path }}"
   register: git_push

@@ -14,7 +14,7 @@
   loop: "{{ systems }}"
   loop_control:
     loop_var: system_item
-  tags: rerun_system_dirs
+  tags: mkdocs_template_update
 
 - name: Install Packages
   include_tasks: package_install.yml
@@ -23,18 +23,7 @@
   template:
     src: templates/mkdocs.yml.j2
     dest: "{{ base_path }}/{{project_name}}/mkdocs.yml"
-  tags: mkdocs_template
+  tags: mkdocs_template_update
 
-- name: Add all files in directory to git tracking
-  command: git add .
-  args:
-    chdir: "{{ project_path }}"
-
-- name: Commit change
-  command: git commit --allow-empty -m "new or automated update"
-
-- name: Push update to remote repository
-  command: git push --force origin main
-  args:
-    chdir: "{{ project_path }}"
-  register: git_push
+- name: Push project repo
+  include_tasks: update_mkdocs_repo.yml

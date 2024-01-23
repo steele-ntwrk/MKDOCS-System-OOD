@@ -17,5 +17,4 @@
     - roles/control_node/vars/secret.yml
   roles:
     - nginx
-  become: yes
   tags: install_nginx

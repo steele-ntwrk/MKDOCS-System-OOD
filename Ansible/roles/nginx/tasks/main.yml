@@ -5,6 +5,7 @@
     name: nginx
     state: latest
     update_cache: yes
+  become: yes
 
 - name: Ensure git is installed
   become: yes
@@ -12,6 +13,7 @@
     name: git
     state: present
     use: apt
+  become: yes
 
 - name: Set project path
   set_fact:
@@ -34,18 +36,12 @@
     value: "{{ git_email }}"
     scope: global
 
-- name: Creates .ssh directory for root
-  file: path=/root/.ssh state=directory
-
-- name: Correct SSH deploy key permissions
-  file: dest=/root/.ssh/github mode=0600
-
 - name: Attempt to clone repository
   git:
     repo: "{{ mkdocs_repo_url }}"
     dest: "{{ project_path }}"
     force: yes
-    key_file: /root/.ssh/id_rsa
+    key_file: /home/matts/.ssh/id_rsa
   register: git_clone
 
 - name: Apply Nginx template
@@ -53,6 +49,7 @@
     src: nginx.conf.j2
     dest: /etc/nginx/sites-available/default
   notify: restart nginx
+  become: yes
 
 - name: Enable new site
   file:
@@ -60,9 +57,11 @@
     dest: /etc/nginx/sites-enabled/default
     state: link
   notify: restart nginx
+  become: yes
 
 - name: Allow all access to tcp port 8080
   ufw:
     rule: allow
     port: '8080'
     proto: tcp
+  become: yes

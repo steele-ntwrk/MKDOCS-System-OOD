@@ -5,75 +5,66 @@
     state: present
     use: apt
 
-- name: Set project path
-  set_fact:
-    project_path: "{{ base_path }}/{{ project_name }}"
-
 - name: Create project directory
   file:
     path: "{{ project_path }}"
     state: directory
+
+- name: Check if Git remote origin is set
+  command: git remote
+  args:
+    chdir: "{{ project_path }}"
+  register: git_remote
+  failed_when: false
+  changed_when: false
 
 - name: Set global Git user name
   git_config:
     name: user.name
     value: "{{ git_username }}"
     scope: global
+  when: git_remote.stdout == ""
 
 - name: Set global Git user email
   git_config:
     name: user.email
     value: "{{ git_email }}"
     scope: global
+  when: git_remote.stdout == ""
 
-- name: Attempt to clone repository
-  git:
-    repo: "{{ mkdocs_repo_url }}"
-    dest: "{{ project_path }}"
-    force: yes
-    key_file: /home/matts/.ssh/id_rsa
-  register: git_clone
-  ignore_errors: yes
-
-- name: Create mkdocs docs directory
-  file:
-    path: "{{ project_path }}/docs"
-    state: directory
-  when: git_clone.failed
-
-- name: Initialize the local Git repository if clone failed
+- name: Initialize the local Git repository
   command: git init
   args:
     chdir: "{{ project_path }}"
-  when: git_clone.failed
+  when: git_remote.stdout == ""
 
 - name: Create gitignore
   copy:
     dest: "{{ project_path }}/.gitignore"
     content: |
       venv/
-  when: git_clone.failed
+  when: git_remote.stdout == ""
 
-- name: Commit an empty commit to the main branch if just created
+- name: Commit an empty commit to the main branch
   command: git commit --allow-empty -m "Initial commit"
   args:
     chdir: "{{ project_path }}"
-  when: git_clone.failed
+  when: git_remote.stdout == ""
 
-- name: Create the main branch if it doesn't exist
+- name: Create the main branch
   command: git branch -M main
   args:
     chdir: "{{ project_path }}"
-  when: git_clone.failed
+  when: git_remote.stdout == ""
 
-- name: Add remote repository 
+- name: Set remote repository URL
   command: git remote add origin {{ mkdocs_repo_url }}
   args:
     chdir: "{{ project_path }}"
-  when: git_clone.failed
-
-- name: Push the main branch if just created
-  command: git push -u origin main
+  when: git_remote.stdout == ""
+  
+- name: Push the main branch
+  command: git push --set-upstream origin main
   args:
     chdir: "{{ project_path }}"
-  when: git_clone.failed
+  when: git_remote.stdout == ""

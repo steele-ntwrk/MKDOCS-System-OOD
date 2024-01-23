@@ -1,11 +1,10 @@
 ---
 mkdocs_dev_host: 192.168.40.99
-mkdocs_path: ./ # Define your localhost mkdocs path here
-project_name: projectX
-project_path: "{{ mkdocs_path }}/{{ project_name }}"
+project_name: ProjectX
+project_path: "{{ base_path }}/{{ project_name }}"
 company_name: Steele Networks
 url: system
-mkdocs_repo_url: git@github.com:steele-ntwrk/test_oob.git
+mkdocs_repo_url: git@github.com:steele-ntwrk/ProjectX.git
 base_path: "/home/matts" # Define your localhost base path here
 
 # branch levels not currently used
