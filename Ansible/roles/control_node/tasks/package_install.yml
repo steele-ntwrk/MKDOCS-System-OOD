@@ -11,31 +11,33 @@
   args:
     creates: "{{ base_path }}/{{ project_name }}/venv"
 
-- name: Install mkdocs
+- name: Install required packages
   become: yes
-  pip:
-    name: mkdocs
+  apt:
+    name:
+      - python3-pip
+      - wget
+      - curl
+      - desktop-file-utils
+      - libasound2
+      - xvfb
     state: present
-    executable: "{{ base_path }}/{{ project_name }}/venv/bin/pip3"
 
-- name: Install mkdocs material theme
+- name: Create a virtual environment for mkdocs and plugins
+  become: yes
+  ansible.builtin.command:
+    cmd: python3 -m venv {{ base_path }}/{{ project_name }}/venv
+  args:
+    creates: "{{ base_path }}/{{ project_name }}/venv"
+
+- name: Install mkdocs and plugins
   become: yes
   pip:
-    name: mkdocs-material
-    state: present
-    executable: "{{ base_path }}/{{ project_name }}/venv/bin/pip3"
-
-- name: Install mkdocs draw.io-exporter plugin
-  become: yes
-  pip:
-    name: mkdocs-drawio-exporter
-    state: present
-    executable: "{{ base_path }}/{{ project_name }}/venv/bin/pip3"
-
-- name: Install mkdocs macros plugin
-  become: yes
-  pip:
-    name: mkdocs-macros-plugin
+    name:
+      - mkdocs
+      - mkdocs-material
+      - mkdocs-drawio-exporter
+      - mkdocs-macros-plugin
     state: present
     executable: "{{ base_path }}/{{ project_name }}/venv/bin/pip3"
 
@@ -46,14 +48,6 @@
       apt:
         update_cache: yes
         upgrade: yes
-
-    - name: Install wget and curl
-      become: yes
-      apt:
-        name:
-          - wget
-          - curl
-        state: present
 
     - name: Check if draw.io is installed
       ansible.builtin.command: which drawio

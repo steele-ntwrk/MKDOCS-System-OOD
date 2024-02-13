@@ -1,11 +1,11 @@
 ---
-mkdocs_dev_host: 192.168.40.99
-project_name: ProjectX
-project_path: "{{ base_path }}/{{ project_name }}"
-company_name: Steele Networks
-url: system
-mkdocs_repo_url: git@github.com:steele-ntwrk/ProjectX.git
-base_path: "/home/matts" # Define your localhost base path here
+mkdocs_dev_host: 192.168.40.99 # Define your web host here
+project_name: ProjectX # Define your project name here
+project_path: "{{ base_path }}/{{ project_name }}" # Define your project path here
+company_name: Steele Networks # Define your company name here
+url: system # Define your url here
+mkdocs_repo_url: git@github.com:steele-ntwrk/ProjectX.git # Define your mkdocs repo url here
+base_path: "/home/matts" # Define your control node  base path here
 
 # branch levels not currently used
 #branch_levels:

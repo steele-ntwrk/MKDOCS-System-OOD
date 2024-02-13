@@ -2,16 +2,20 @@
   file:
     path: "{{ base_path }}/{{project_name}}/docs/{{ system_item.name }}/{{ subsystem_item.name }}/{{ component_item.name }}"
     state: directory
+  tags:
+    - update_project_systems
 
 - name: Create component detail design file
   template:
     src: "templates/component_detailed_design.md.j2"
     dest: "{{ base_path }}/{{project_name}}/docs/{{ system_item.name }}/{{ subsystem_item.name }}/{{ component_item.name }}/{{ component_item.name }}-detailed_design.md"
   tags:
-    - rerun_system_dirs
+    - update_project_systems
 
-- name: Create supporting directory for compontent
+- name: Create supporting directory for component
   file:
     path: "{{ base_path }}/{{project_name}}/docs/{{ system_item.name }}/{{ subsystem_item.name }}/{{ component_item.name }}/{{ item }}"
     state: directory
   loop: "{{ supporting_folders }}"
+  tags:
+    - update_project_systems

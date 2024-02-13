@@ -2,19 +2,23 @@
   file:
     path: "{{ base_path }}/{{project_name}}/docs/{{ system_item.name }}/{{ subsystem_item.name }}"
     state: directory
+  tags:
+    - update_project_systems
 
 - name: Create subsystem detail design file
   template:
     src: "templates/subsystem_detailed_design.md.j2"
     dest: "{{ base_path }}/{{project_name}}/docs/{{ system_item.name }}/{{ subsystem_item.name }}/{{ subsystem_item.name }}-detailed_design.md"
   tags:
-    - rerun_system_dirs
+    - update_project_systems
 
 - name: Create supporting directory for subsystem
   file:
     path: "{{ base_path }}/{{project_name}}/docs/{{ system_item.name }}/{{ subsystem_item.name }}/{{ item }}"
     state: directory
   loop: "{{ supporting_folders }}"
+  tags:
+    - update_project_systems
 
 
 - name: Include task to create directories for each component
@@ -23,3 +27,6 @@
   loop_control:
     loop_var: component_item
   when: component_item is defined
+  tags:
+    - update_project_systems
+

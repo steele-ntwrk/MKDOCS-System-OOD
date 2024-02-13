@@ -1,0 +1,29 @@
+---
+- name: Generate requirements.yml from CSV
+  hosts: localhost
+  gather_facts: no
+  vars:
+    requirments_csv_path: "path/to/your/requirements.csv"  # Update this path
+    yaml_path: "./roles/control_node/vars/requirements.yml"
+
+  tasks:
+    - name: Read CSV file
+      community.general.read_csv:
+        path: "{{ requirements_csv_path }}"
+        delimiter: ','  # Assuming comma-separated values
+      register: csv_content
+
+    - name: Convert CSV content to YAML format
+      set_fact:
+        yaml_content: >
+          {{
+            csv_content.dict | map(attribute='values') | map('list') | list |
+            json_query("[*].{id: [0], description: [1], detail: [2], source: [3], applicable: {system: [4] | split(','), subsystem: [5] | split(','), component: [6] | split(',')}}")
+          }}
+
+    - name: Generate requirements.yml file
+      copy:
+        dest: "{{ yaml_path }}"
+        content: |
+          requirements:
+            functional: {{ yaml_content | to_nice_yaml(indent=2) }}

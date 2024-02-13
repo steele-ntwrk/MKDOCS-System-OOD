@@ -37,7 +37,7 @@
       loop: "{{ systems }}"
       loop_control:
         loop_var: system_item
-      tags: rerun_system_dirs
+      tags: update_project_systems
 
     - name: Stage all changes
       command: git add .

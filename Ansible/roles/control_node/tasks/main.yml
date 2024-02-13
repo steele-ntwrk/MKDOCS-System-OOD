@@ -7,14 +7,13 @@
   file:
     path: "{{ base_path }}/{{project_name}}/docs/common_images"
     state: directory
-  tags: create_images_dir
 
 - name: Include task to create directories/files for each system, subsystem, and component
   include_tasks: system_dirs_files.yml
   loop: "{{ systems }}"
   loop_control:
     loop_var: system_item
-  tags: mkdocs_template_update
+  tags: update_project_systems
 
 - name: Install Packages
   include_tasks: package_install.yml
@@ -23,7 +22,10 @@
   template:
     src: templates/mkdocs.yml.j2
     dest: "{{ base_path }}/{{project_name}}/mkdocs.yml"
-  tags: mkdocs_template_update
+  tags: 
+    - update_project_mkdocs_template
+    - update_project_systems
 
 - name: Push project repo
-  include_tasks: update_mkdocs_repo.yml
+  include_tasks: update_project_repo.yml
+  tags: push_project_update

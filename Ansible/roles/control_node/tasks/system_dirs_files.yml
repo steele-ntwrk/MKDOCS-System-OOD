@@ -2,18 +2,22 @@
   template:
     src: "templates/index.md.j2"
     dest: "{{ base_path }}/{{project_name}}/docs/index.md"
+  tags:
+    - update_project_systems
 
 - name: Create directory for system
   file:
     path: "{{ base_path }}/{{project_name}}/docs/{{ system_item.name }}"
     state: directory
+  tags:
+    - update_project_systems
 
 - name: Create system detail design file
   template:
     src: "templates/system_detailed_design.md.j2"
     dest: "{{ base_path }}/{{project_name}}/docs/{{ system_item.name }}/{{ system_item.name }}-detailed_design.md"
   tags:
-    - rerun_system_dirs
+    - update_project_systems
 
 - name: Include task to create directories for each subsystem
   include_tasks: subsystem_dirs_files.yml
@@ -21,3 +25,5 @@
   loop_control:
     loop_var: subsystem_item
   when: subsystem_item is defined
+  tags:
+    - update_project_systems

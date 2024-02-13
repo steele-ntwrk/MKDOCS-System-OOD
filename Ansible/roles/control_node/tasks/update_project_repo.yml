@@ -1,12 +1,23 @@
+- name: Run mkdocs build in virtual environment
+  shell: |
+    source {{ project_path }}/venv/bin/activate && 
+    mkdocs build
+  args:
+    chdir: "{{ project_path }}"
+    executable: /bin/bash
+  tags: push_project_update
+
 - name: Add all files in directory to git tracking
   command: git add .
   args:
     chdir: "{{ project_path }}"
+  tags: push_project_update
 
 - name: Commit change
   command: git commit --allow-empty -m "new or automated update"
   args:
     chdir: "{{ project_path }}"
+  tags: push_project_update
 
 
 - name: Push update to remote repository
@@ -14,11 +25,6 @@
   args:
    chdir: "{{ project_path }}"
   register: git_push
-
-- name: Push update to remote repository
-  command: git push --force origin main
-  args:
-    chdir: "{{ project_path }}"
-  register: git_push
+  tags: push_project_update
 
 

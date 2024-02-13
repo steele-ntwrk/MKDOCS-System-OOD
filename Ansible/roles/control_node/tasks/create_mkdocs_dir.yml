@@ -1,14 +1,18 @@
+# This YAML file contains tasks to create a directory for a MKDocs project and set up a Git repository for version control.
+
 - name: Ensure git is installed
   become: yes
   package:
     name: git
     state: present
     use: apt
+  # Ensures that Git is installed on the control node.
 
 - name: Create project directory
   file:
     path: "{{ project_path }}"
     state: directory
+  # Creates the project directory for the MKDocs project.
 
 - name: Check if Git remote origin is set
   command: git remote
@@ -17,6 +21,8 @@
   register: git_remote
   failed_when: false
   changed_when: false
+  # Checks if the Git remote origin is already set for the project. 
+  # This is a exit point if the remote origin is already set this task will not run
 
 - name: Set global Git user name
   git_config:
@@ -24,6 +30,7 @@
     value: "{{ git_username }}"
     scope: global
   when: git_remote.stdout == ""
+  # Sets the global Git user name if the Git remote origin is not set.
 
 - name: Set global Git user email
   git_config:
@@ -31,12 +38,14 @@
     value: "{{ git_email }}"
     scope: global
   when: git_remote.stdout == ""
+  # Sets the global Git user email if the Git remote origin is not set.
 
 - name: Initialize the local Git repository
   command: git init
   args:
     chdir: "{{ project_path }}"
   when: git_remote.stdout == ""
+  # Initializes a local Git repository if the Git remote origin is not set.
 
 - name: Create gitignore
   copy:
@@ -44,27 +53,32 @@
     content: |
       venv/
   when: git_remote.stdout == ""
+  # Creates a .gitignore file in the project directory to ignore the 'venv/' directory if the Git remote origin is not set.
 
 - name: Commit an empty commit to the main branch
   command: git commit --allow-empty -m "Initial commit"
   args:
     chdir: "{{ project_path }}"
   when: git_remote.stdout == ""
+  # Commits an empty commit to the main branch if the Git remote origin is not set.
 
 - name: Create the main branch
   command: git branch -M main
   args:
     chdir: "{{ project_path }}"
   when: git_remote.stdout == ""
+  # Creates the main branch if the Git remote origin is not set.
 
 - name: Set remote repository URL
   command: git remote add origin {{ mkdocs_repo_url }}
   args:
     chdir: "{{ project_path }}"
   when: git_remote.stdout == ""
-  
+  # Sets the remote repository URL if the Git remote origin is not set.
+
 - name: Push the main branch
   command: git push --set-upstream origin main
   args:
     chdir: "{{ project_path }}"
   when: git_remote.stdout == ""
+  # Pushes the main branch to the remote repository if the Git remote origin is not set.

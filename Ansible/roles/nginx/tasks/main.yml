@@ -43,6 +43,7 @@
     force: yes
     key_file: /home/matts/.ssh/id_rsa
   register: git_clone
+  tags: push_project_update
 
 - name: Apply Nginx template
   template:

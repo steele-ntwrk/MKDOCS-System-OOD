@@ -1,6 +1,6 @@
 #jinja2: trim_blocks: False
 
-site_name: PLACEHOLDER
+site_name: {{ project_name }}
 site_url: http://192.168.40.99
 nav:
   - Home: index.md
@@ -12,8 +12,9 @@ nav:
     - {{ subsystem.name}}:
       - {{ subsystem.name }}: {{ system.name }}/{{ subsystem.name }}/{{ subsystem.name }}-detailed_design.md
 {%- if subsystem.components is defined %}
+      - Components:
 {%- for component in subsystem.components %}
-      - {{ component.name }}: {{ system.name }}/{{ subsystem.name }}/{{ component.name }}/{{ component.name }}-detailed_design.md
+        - {{ component.name }}: {{ system.name }}/{{ subsystem.name }}/{{ component.name }}/{{ component.name }}-detailed_design.md
 {%- endfor %}
 {%- endif %}
 {%- endfor %}
