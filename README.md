@@ -41,7 +41,9 @@ Run tempalte_update.yml to update templates, create a template branch and push t
 
 ## TAGS
 
-|: TAG :|: Action :|
+| TAG | Action |
+|-------|----------|
 | update_project_mkdocs_template | Updates project mkdocs.yml file with the new template |
 | push_project_update | Pushes the latest version of the project to the web server |
 | update_project_systems | Updates directory, files and mkdocs.yml file with any updates to sos_master.yml |
+
