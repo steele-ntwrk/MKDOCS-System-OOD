@@ -1,8 +1,8 @@
-# MKDOCS-System-OOD
+# OoDoc
 
-This projects aim is to assist in creating a a "docs as codes" solution utilising common devops tools and methodolgies such as object orientated programming or in this case object orientated documentation. 
+OoDoc ia a projects that aims to assist in creating a "docs as code" solution utilising common devops tools and methodolgies such as object orientated programming or in this case object orientated documentation.
 
-The primary compontents of this project are: 
+The primary compontents of this project are:
 
 - Ansible for orchestration
 - GIT for version control
@@ -10,6 +10,12 @@ The primary compontents of this project are:
 - Jinja2 for templating
 - Markdown for documentation
 - YAML data formating
+
+## Nomenclature
+
+- Control Node: The node where OoDoc resides and where control of the project is executed.
+- Project: The project that is being documented, commonly used term is project repo.
+- Project Repo: The git repository that is used/gerneted by the control node
 
 ## Requirements
 
@@ -27,8 +33,15 @@ A development box to pull this repo and start the project/host your docs.
 Use this command to build the site ``` xvfb-run -a mkdocs build ```
 
 
-## Key playbooks 
+## Key playbooks
 
 Run main.yml on initiation, note if the project repo has a remote origin the init commit will not run. 
 
 Run tempalte_update.yml to update templates, create a template branch and push to remote origion. Template update branch only viewable on control node
+
+## TAGS
+
+|: TAG :|: Action :|
+| update_project_mkdocs_template | Updates project mkdocs.yml file with the new template |
+| push_project_update | Pushes the latest version of the project to the web server |
+| update_project_systems | Updates directory, files and mkdocs.yml file with any updates to sos_master.yml |
