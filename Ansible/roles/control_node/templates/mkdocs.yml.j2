@@ -25,7 +25,7 @@ nav:
       {%- for type, requirements in requirements.items() %}
       - {{ type.capitalize() }} Requirements:
           {%- for requirement in requirements %}
-          - {{ requirement.id }} {{requirement.description}}: requirements/{{ type.lower() }}/{{ requirement.id }}.md
+          - {{ requirement.id }}: requirements/{{ type.lower() }}/{{ requirement.id }}.md
           {%- endfor %}
       {%- endfor %}
 

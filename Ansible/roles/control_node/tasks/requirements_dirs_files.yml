@@ -2,6 +2,7 @@
   ansible.builtin.file:
     path: "{{ base_path }}/{{ project_name }}/docs/requirements/{{ requirements_type }}"
     state: directory
+  tags: update_project_systems
 
 - name: Create "{{ requirements_type }}" requirements files
   template:
@@ -10,4 +11,4 @@
   loop: "{{ requirements[requirements_type] }}"
   loop_control:
     loop_var: requirement_item
-
+  tags: update_project_systems
