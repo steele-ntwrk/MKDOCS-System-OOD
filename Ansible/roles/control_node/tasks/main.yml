@@ -15,6 +15,16 @@
     loop_var: system_item
   tags: update_project_systems
 
+- name: Include task to create directories/files for each requirement
+  include_tasks: requirements_dirs_files.yml
+  vars:
+    requirements_type: "{{ item }}"
+  loop:
+    - functional
+    - security
+  tags: update_project_systems
+
+
 - name: Install Packages
   include_tasks: package_install.yml
 

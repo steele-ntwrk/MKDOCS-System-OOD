@@ -13,7 +13,8 @@ The primary compontents of this project are:
 - MKDOCS Plugins
   - [[mkdocs-material](https://squidfunk.github.io/mkdocs-material/)] for modern theme and page enhancements
   - [[mkdocs-drawio-exporter](https://github.com/LukeCarrier/mkdocs-drawio-exporter)] for svg diagram embedding into html
-  - [[mkdocs-macros](https://mkdocs-macros-plugin.readthedocs.io/en/latest/)] enables the ability 
+  - [[mkdocs-macros](https://mkdocs-macros-plugin.readthedocs.io/en/latest/)] enables the ability to create macros that dynamically pull information from sources such as netbox. 
+  - [[mkdocs-include-markdown-plugin](https://github.com/mondeja/mkdocs-include-markdown-plugin)]
 
 ## Nomenclature
 

@@ -1,0 +1,13 @@
+- name: Create directory for "{{ requirements_type }}" requirements
+  ansible.builtin.file:
+    path: "{{ base_path }}/{{ project_name }}/docs/requirements/{{ requirements_type }}"
+    state: directory
+
+- name: Create "{{ requirements_type }}" requirements files
+  template:
+    src: "templates/requirements.md.j2"
+    dest: "{{ base_path }}/{{ project_name }}/docs/requirements/{{ requirements_type }}/{{ requirement_item.id }}.md"
+  loop: "{{ requirements[requirements_type] }}"
+  loop_control:
+    loop_var: requirement_item
+

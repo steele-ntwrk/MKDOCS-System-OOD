@@ -1,0 +1,26 @@
+# Requirement: {{ requirement_item.id }}
+
+## Description
+{{ requirement_item.description }}
+
+## Detail
+{{ requirement_item.detail }}
+
+## Source
+{{ requirement_item.source }}
+
+## Applicability
+### Systems
+{% for system in requirement_item.applicable.system %}
+- {{ system }}
+{% endfor %}
+
+### Subsystems
+{% for subsystem in requirement_item.applicable.subsystem %}
+- {{ subsystem }}
+{% endfor %}
+
+### Components
+{% for component in requirement_item.applicable.component %}
+- {{ component }}
+{% endfor %}

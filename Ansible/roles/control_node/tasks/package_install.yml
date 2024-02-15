@@ -38,6 +38,7 @@
       - mkdocs-material
       - mkdocs-drawio-exporter
       - mkdocs-macros-plugin
+      - mkdocs-include-markdown-plugin
     state: present
     executable: "{{ base_path }}/{{ project_name }}/venv/bin/pip3"
 
