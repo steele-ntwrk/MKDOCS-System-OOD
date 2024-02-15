@@ -12,7 +12,8 @@ The primary compontents of this project are:
 - YAML data formating
 - MKDOCS Plugins
   - [[mkdocs-material](https://squidfunk.github.io/mkdocs-material/)] for modern theme and page enhancements
-  - [[mkdocs-drawio-exporter](https://github.com/LukeCarrier/mkdocs-drawio-exporter)] for diagram svg embedding into html
+  - [[mkdocs-drawio-exporter](https://github.com/LukeCarrier/mkdocs-drawio-exporter)] for svg diagram embedding into html
+  - [[mkdocs-macros](https://mkdocs-macros-plugin.readthedocs.io/en/latest/)] enables the ability 
 
 ## Nomenclature
 
