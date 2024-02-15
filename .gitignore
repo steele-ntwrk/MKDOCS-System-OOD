@@ -1,2 +1,2 @@
 venv/
-/Ansible/roles/control_node/vars/secrets.yml
+Ansible/roles/control_node/vars/secret.yml
