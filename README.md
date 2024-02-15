@@ -10,6 +10,9 @@ The primary compontents of this project are:
 - Jinja2 for templating
 - Markdown for documentation
 - YAML data formating
+- MKDOCS Plugins
+  - [[mkdocs-material](https://squidfunk.github.io/mkdocs-material/)] for modern theme and page enhancements
+  - [[mkdocs-drawio-exporter](https://github.com/LukeCarrier/mkdocs-drawio-exporter)] for diagram svg embedding into html
 
 ## Nomenclature
 
