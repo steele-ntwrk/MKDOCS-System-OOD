@@ -11,6 +11,7 @@
     dest: "{{ base_path }}/{{project_name}}/docs/{{ system_item.name }}/{{ subsystem_item.name }}/{{ component_item.name }}/{{ component_item.name }}-detailed_design.md"
   tags:
     - update_project_systems
+    - update_project_template
 
 - name: Create supporting directory for component
   file:

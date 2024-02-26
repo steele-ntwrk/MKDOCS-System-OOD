@@ -1,9 +1,10 @@
 - name: Render index.md template
   template:
-    src: "templates/index.md.j2"
+    src: "index.md.j2"
     dest: "{{ base_path }}/{{project_name}}/docs/index.md"
   tags:
     - update_project_systems
+    - update_project_template
 
 - name: Create directory for system
   file:
@@ -18,6 +19,7 @@
     dest: "{{ base_path }}/{{project_name}}/docs/{{ system_item.name }}/{{ system_item.name }}-detailed_design.md"
   tags:
     - update_project_systems
+    - update_project_template
 
 - name: Include task to create directories for each subsystem
   include_tasks: subsystem_dirs_files.yml

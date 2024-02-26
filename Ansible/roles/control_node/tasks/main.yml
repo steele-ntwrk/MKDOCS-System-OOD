@@ -13,7 +13,9 @@
   loop: "{{ systems }}"
   loop_control:
     loop_var: system_item
-  tags: update_project_systems
+  tags:
+      - update_project_systems
+      - update_project_template
 
 - name: Include task to create directories/files for each requirement
   include_tasks: requirements_dirs_files.yml
@@ -22,7 +24,9 @@
   loop:
     - functional
     - security
-  tags: update_project_systems
+  tags:
+      - update_project_systems
+      - update_project_template
 
 
 - name: Install Packages
@@ -39,3 +43,8 @@
 - name: Push project repo
   include_tasks: update_project_repo.yml
   tags: push_project_update
+
+- name: Include update_project_template tasks
+  include_tasks: update_project_templates.yml
+  tags:
+    - update_project_template  # This ensures the inclusion task itself is always considered

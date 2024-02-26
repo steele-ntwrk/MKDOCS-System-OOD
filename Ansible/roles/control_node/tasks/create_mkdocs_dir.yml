@@ -47,13 +47,13 @@
   when: git_remote.stdout == ""
   # Initializes a local Git repository if the Git remote origin is not set.
 
-- name: Create gitignore
-  copy:
-    dest: "{{ project_path }}/.gitignore"
-    content: |
-      venv/
-  when: git_remote.stdout == ""
-  # Creates a .gitignore file in the project directory to ignore the 'venv/' directory if the Git remote origin is not set.
+#- name: Create gitignore
+#  copy:
+#    dest: "{{ project_path }}/.gitignore"
+#    content: |
+#      venv/
+#  when: git_remote.stdout == ""
+#  # Creates a .gitignore file in the project directory to ignore the 'venv/' directory if the Git remote origin is not set.
 
 - name: Commit an empty commit to the main branch
   command: git commit --allow-empty -m "Initial commit"
