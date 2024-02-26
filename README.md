@@ -33,19 +33,20 @@ A development box to pull this repo and start the project/host your docs.
 
 ## Key Files
 
-| Role         | Template/var | Input File               | Description                                                                 | Output Files              |
-| ------------ | ------------ | ------------------------ | --------------------------------------------------------------------------- | ------------------------- |
-| Control Node | var          | `mkdocs_build.yml`       | General vars for the project and project repo                                | NA                        |
-| Control Node | var          | `requirements`           | Requirements for the project                                                | `*requirements.md* `      |
-| Control Node | var          | `secret.yml`             | Ansible secrets used by the control node such as git un/pw, netbox api etc. | NA                        |
-| Control Node | var          | `sos_master.yml`         | System heirarchy structure and supporting folders                           | `*system dirs and files*` |
-| Control node | Template     | `*detailed_design.md.j2` | Templates to render markdown pages for Systems                              | `*system_file.md*`        |
-| Control node | Template     | `*requirement.md.j2`     | Templates to render markdown pages for Requirements                         | `*requirement.md*`        |
-| Control node | Template     | `index.md.j2`            | Project index page                                                          | `index.md`                |
-| Control node | Template     | `mkdocs.yml.j2`          | Project mkdocs configuration file                                           | `mkdocs.yml`              |
-| nginx | var | `main.yml` | Genral vars for the hosting web server including project path to store the project | NA |
-| nginx | Template | nginx.conf.j2 | Renders nginx configuration | `nginx.conf` |
-| NA (Inventory) | NA | `Inventory.ini` | 
+| Role           | Template/var | Input File               | Description                                                                        | Output Files              |
+| -------------- | ------------ | ------------------------ | ---------------------------------------------------------------------------------- | ------------------------- |
+| Control Node   | var          | `mkdocs_build.yml`       | General vars for the project and project repo                                      | NA                        |
+| Control Node   | var          | `requirements`           | Requirements for the project                                                       | `*requirements.md* `      |
+| Control Node   | var          | `secret.yml`             | Ansible secrets used by the control node such as git un/pw, netbox api etc.        | NA                        |
+| Control Node   | var          | `sos_master.yml`         | System heirarchy structure and supporting folders                                  | `*system dirs and files*` |
+| Control node   | Template     | `*detailed_design.md.j2` | Templates to render markdown pages for Systems                                     | `*system_file.md*`        |
+| Control node   | Template     | `*requirement.md.j2`     | Templates to render markdown pages for Requirements                                | `*requirement.md*`        |
+| Control node   | Template     | `index.md.j2`            | Project index page                                                                 | `index.md`                |
+| Control node   | Template     | `mkdocs.yml.j2`          | Project mkdocs configuration file                                                  | `mkdocs.yml`              |
+| nginx          | var          | `main.yml`               | Genral vars for the hosting web server including project path to store the project | NA                        |
+| nginx          | var          | `secret.yml`             | Secrets for nginx node                                                             | NA                        |
+| nginx          | Template     | nginx.conf.j2            | Renders nginx configuration                                                        | `nginx.conf`              |
+| NA (Inventory) | NA           | `Inventory.ini`          | Control and nginx host specification                                               | NA                        |
 
 
 

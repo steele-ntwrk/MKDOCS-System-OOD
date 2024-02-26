@@ -15,6 +15,7 @@
   vars_files:
     - roles/control_node/vars/mkdocs_build.yml
     - roles/control_node/vars/secret.yml
+    - roles/nginx/vars/secret.yml
   roles:
     - nginx
   tags: install_nginx

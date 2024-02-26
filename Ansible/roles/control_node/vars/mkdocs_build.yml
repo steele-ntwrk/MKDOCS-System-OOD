@@ -1,5 +1,5 @@
 ---
-mkdocs_dev_host: 192.168.40.99 # Define your web host here
+mkdocs_dev_host: 192.168.40.99 # Define your nginx host here
 project_name: ProjectX # Define your project name here
 project_path: "{{ base_path }}/{{ project_name }}" # Define your project path here
 company_name: Steele Networks # Define your company name here
