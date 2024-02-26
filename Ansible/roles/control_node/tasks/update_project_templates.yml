@@ -1,0 +1,54 @@
+- name: Set project path
+  set_fact:
+    project_path: "{{ base_path }}/{{ project_name }}"
+  tags: update_project_template
+
+- name: Ensure the repository is cloned and updated
+  git:
+    repo: '{{ mkdocs_repo_url }}'
+    dest: "{{ project_path }}"
+    version: main
+    clone: yes
+    update: yes
+    force: yes
+  tags: update_project_template
+
+- name: Create new template update branch if it does not exist
+  command:
+    cmd: git branch template-update-{{ lookup('pipe', 'date +%Y%m%d') }}
+    chdir: "{{ project_path }}"
+  ignore_errors: yes
+  tags: update_project_template
+
+- name: Checkout the template update branch
+  command:
+    cmd: git checkout template-update-{{ lookup('pipe', 'date +%Y%m%d') }}
+    chdir: "{{ project_path }}"
+  tags: update_project_template
+
+- name: Include task to create directories/files for each system, subsystem, and component
+  include_tasks: roles/control_node/tasks/system_dirs_files.yml
+  loop: "{{ systems }}"
+  loop_control:
+    loop_var: system_item
+  tags: update_project_template
+
+- name: Stage all changes
+  command: git add .
+  args:
+    chdir: "{{ project_path }}"
+  tags: update_project_template
+
+- name: Commit changes in the template update branch
+  command: git commit -m "New template version as of {{ lookup('pipe', 'date +%Y%m%d') }}"
+  args:
+    chdir: "{{ project_path }}"
+  ignore_errors: yes
+  tags: update_project_template
+
+- name: Push the to remote
+  command: git push -u origin template-update-{{ lookup('pipe', 'date +%Y%m%d') }}
+  args:
+    chdir: "{{ project_path }}"
+  ignore_errors: yes
+  tags: update_project_template
