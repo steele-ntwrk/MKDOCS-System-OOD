@@ -66,7 +66,7 @@ Run tempalte_update.yml to update templates, this will create a template branch 
 | update_project_mkdocs_template | Updates project mkdocs.yml file with the new template                           |
 | push_project_update            | Pushes the latest version of the project to git ann the web server              |
 | update_project_systems         | Updates directory, files and mkdocs.yml file with any updates to sos_master.yml |
-| update_project_template        |  Automatically render file templates into a temporary branch to be mergded      |
-|                                |                                                                                 |
+| update_project_template        | Automatically render file templates into a temporary branch to be mergded       |
+| init                           | Used to initiate the project (Note: Wont work after the first time)             |
 
 ## Instructions on 

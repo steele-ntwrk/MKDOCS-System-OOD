@@ -15,14 +15,14 @@
 
 - name: Create new template update branch if it does not exist
   command:
-    cmd: git branch template-update-{{ lookup('pipe', 'date +%Y%m%d') }}
+    cmd: git branch template-update
     chdir: "{{ project_path }}"
   ignore_errors: yes
   tags: update_project_template
 
 - name: Checkout the template update branch
   command:
-    cmd: git checkout template-update-{{ lookup('pipe', 'date +%Y%m%d') }}
+    cmd: git checkout template-update
     chdir: "{{ project_path }}"
   tags: update_project_template
 
@@ -47,8 +47,14 @@
   tags: update_project_template
 
 - name: Push the to remote
-  command: git push -u origin template-update-{{ lookup('pipe', 'date +%Y%m%d') }}
+  command: git push -u origin template-update
   args:
     chdir: "{{ project_path }}"
   ignore_errors: yes
+  tags: update_project_template
+
+- name: Checkout main
+  command:
+    cmd: git checkout main
+    chdir: "{{ project_path }}"
   tags: update_project_template
