@@ -45,7 +45,7 @@ A development box to pull this repo and start the project/host your docs.
 | Control node   | Template     | `mkdocs.yml.j2`          | Project mkdocs configuration file                                                  | `mkdocs.yml`              |
 | nginx          | var          | `main.yml`               | Genral vars for the hosting web server including project path to store the project | NA                        |
 | nginx          | var          | `secret.yml`             | Secrets for nginx node                                                             | NA                        |
-| nginx          | Template     | nginx.conf.j2            | Renders nginx configuration                                                        | `nginx.conf`              |
+| nginx          | Template     | `nginx.conf.j2`          | Renders nginx configuration                                                        | `nginx.conf`              |
 | NA (Inventory) | NA           | `Inventory.ini`          | Control and nginx host specification                                               | NA                        |
 
 
@@ -64,6 +64,9 @@ Run tempalte_update.yml to update templates, this will create a template branch 
 | TAG                            | Action                                                                          |
 | ------------------------------ | ------------------------------------------------------------------------------- |
 | update_project_mkdocs_template | Updates project mkdocs.yml file with the new template                           |
-| push_project_update            | Pushes the latest version of the project to the web server                      |
+| push_project_update            | Pushes the latest version of the project to git ann the web server              |
 | update_project_systems         | Updates directory, files and mkdocs.yml file with any updates to sos_master.yml |
+| update_project_template        |  Automatically render file templates into a temporary branch to be mergded      |
+|                                |                                                                                 |
 
+## Instructions on 

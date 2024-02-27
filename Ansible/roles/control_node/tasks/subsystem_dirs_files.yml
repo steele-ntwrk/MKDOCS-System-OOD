@@ -30,4 +30,5 @@
   when: component_item is defined
   tags:
     - update_project_systems
+    - update_project_template
 

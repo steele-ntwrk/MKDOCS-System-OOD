@@ -23,13 +23,6 @@
       - xvfb
     state: present
 
-- name: Create a virtual environment for mkdocs and plugins
-  become: yes
-  ansible.builtin.command:
-    cmd: python3 -m venv {{ base_path }}/{{ project_name }}/venv
-  args:
-    creates: "{{ base_path }}/{{ project_name }}/venv"
-
 - name: Install mkdocs and plugins
   become: yes
   pip:
@@ -49,7 +42,7 @@
         update_cache: yes
         upgrade: yes
 
-    - name: Check if draw.io is installed
+    - name: Check if draw.io is already installed
       ansible.builtin.command: which drawio
       register: drawio_installed
       ignore_errors: yes

@@ -1,3 +1,10 @@
+- name: Push update to remote repository
+  command: git checkout main
+  args:
+   chdir: "{{ project_path }}"
+  register: git_push
+  tags: push_project_update
+
 - name: Run mkdocs build in virtual environment
   shell: |
     source {{ project_path }}/venv/bin/activate && 
@@ -18,7 +25,6 @@
   args:
     chdir: "{{ project_path }}"
   tags: push_project_update
-
 
 - name: Push update to remote repository
   command: git push --set-upstream origin main

@@ -1,0 +1,12 @@
+---
+- hosts: localhost
+  gather_facts: no
+  vars_files:
+    - roles/control_node/vars/mkdocs_build.yml
+    - roles/control_node/vars/sos_master.yml
+    - roles/control_node/vars/requirements.yml
+    - roles/control_node/vars/secret.yml
+
+  roles:
+    - control_node
+    

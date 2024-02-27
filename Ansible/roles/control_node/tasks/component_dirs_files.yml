@@ -1,11 +1,11 @@
-- name: Create directory for component
+- name: Create directory for components
   file:
     path: "{{ base_path }}/{{project_name}}/docs/{{ system_item.name }}/{{ subsystem_item.name }}/{{ component_item.name }}"
     state: directory
   tags:
     - update_project_systems
 
-- name: Create component detail design file
+- name: Create component detailed design files
   template:
     src: "templates/component_detailed_design.md.j2"
     dest: "{{ base_path }}/{{project_name}}/docs/{{ system_item.name }}/{{ subsystem_item.name }}/{{ component_item.name }}/{{ component_item.name }}-detailed_design.md"
@@ -13,7 +13,7 @@
     - update_project_systems
     - update_project_template
 
-- name: Create supporting directory for component
+- name: Create supporting directories for components
   file:
     path: "{{ base_path }}/{{project_name}}/docs/{{ system_item.name }}/{{ subsystem_item.name }}/{{ component_item.name }}/{{ item }}"
     state: directory

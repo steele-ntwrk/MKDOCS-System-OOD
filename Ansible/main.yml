@@ -8,7 +8,9 @@
     - roles/control_node/vars/secret.yml
   roles:
     - control_node
-  tags: control_node  
+  tags: 
+    - control_node
+    - init
 
 - hosts: nginx
   gather_facts: no
@@ -18,4 +20,6 @@
     - roles/nginx/vars/secret.yml
   roles:
     - nginx
-  tags: install_nginx
+  tags: 
+    - install_nginx
+    - init

@@ -1,12 +1,16 @@
 ---
 
-- name: Create mkdocs directory
+- name: Create mkdocs directory structure
   include_tasks: create_mkdocs_dir.yml
+  tags:
+    - init
 
 - name: Create directory for common images
   file:
     path: "{{ base_path }}/{{project_name}}/docs/common_images"
     state: directory
+  tags:
+    - init
 
 - name: Include task to create directories/files for each system, subsystem, and component
   include_tasks: system_dirs_files.yml
@@ -14,8 +18,8 @@
   loop_control:
     loop_var: system_item
   tags:
-      - update_project_systems
-      - update_project_template
+    - init
+    - update_project_systems
 
 - name: Include task to create directories/files for each requirement
   include_tasks: requirements_dirs_files.yml
@@ -25,24 +29,28 @@
     - functional
     - security
   tags:
-      - update_project_systems
-      - update_project_template
+    - init
+    - update_project_systems
 
-
-- name: Install Packages
+- name: Install Supporting Packages
   include_tasks: package_install.yml
+  tags:
+    - init
 
 - name: Template the mkdocs.yml file
   template:
     src: templates/mkdocs.yml.j2
     dest: "{{ base_path }}/{{project_name}}/mkdocs.yml"
-  tags: 
+  tags:
+    - init
     - update_project_mkdocs_template
     - update_project_systems
 
 - name: Push project repo
   include_tasks: update_project_repo.yml
-  tags: push_project_update
+  tags:
+    - init
+    - push_project_update
 
 - name: Include update_project_template tasks
   include_tasks: update_project_templates.yml
