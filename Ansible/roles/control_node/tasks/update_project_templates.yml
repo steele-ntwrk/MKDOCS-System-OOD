@@ -1,8 +1,3 @@
-- name: Set project path
-  set_fact:
-    project_path: "{{ base_path }}/{{ project_name }}"
-  tags: update_project_template
-
 - name: Ensure the repository is cloned and updated
   git:
     repo: '{{ mkdocs_repo_url }}'
@@ -11,50 +6,76 @@
     clone: yes
     update: yes
     force: yes
-  tags: update_project_template
+  tags: 
+    - update_project_template
+    - update_project_systems
 
-- name: Create new template update branch if it does not exist
+- name: Create new system-project-update branch if it does not exist
   command:
-    cmd: git branch template-update
+    cmd: git branch system-project-update
     chdir: "{{ project_path }}"
   ignore_errors: yes
-  tags: update_project_template
+  register: create_branch_result
+  tags: 
+    - update_project_template
+    - update_project_systems
 
-- name: Checkout the template update branch
+- name: Checkout system-project-update branch 
   command:
-    cmd: git checkout template-update
+    cmd: git checkout system-project-update
     chdir: "{{ project_path }}"
-  tags: update_project_template
+  tags: 
+    - update_project_template
+    - update_project_systems
+
+- name: Pull the latest changes from repository if branch creation fails
+  command:
+    cmd: git pull
+    chdir: "{{ project_path }}"
+  ignore_errors: yes
+  when: create_branch_result is failed
+  tags: 
+    - update_project_template
+    - update_project_systems
 
 - name: Include task to create directories/files for each system, subsystem, and component
   include_tasks: roles/control_node/tasks/system_dirs_files.yml
   loop: "{{ systems }}"
   loop_control:
     loop_var: system_item
-  tags: update_project_template
+  tags: 
+    - update_project_template
 
 - name: Stage all changes
   command: git add .
   args:
     chdir: "{{ project_path }}"
-  tags: update_project_template
+  tags: 
+    - update_project_template
+    - update_project_systems
 
-- name: Commit changes in the template update branch
-  command: git commit -m "New template version as of {{ lookup('pipe', 'date +%Y%m%d') }}"
+- name: Commit changes in the system-project-update update branch
+  command: git commit -m "New system project update version as of {{ lookup('pipe', 'date +%Y%m%d') }}"
   args:
     chdir: "{{ project_path }}"
   ignore_errors: yes
-  tags: update_project_template
+  tags: 
+    - update_project_template
+    - update_project_systems
 
-- name: Push the to remote
-  command: git push -u origin template-update
+- name: Push changes to remote
+  command: git push -u origin system-project-update
   args:
     chdir: "{{ project_path }}"
   ignore_errors: yes
-  tags: update_project_template
+  tags: 
+    - update_project_template
+    - update_project_systems
 
-- name: Checkout main
+- name: Checkout main to restore the working branch
   command:
     cmd: git checkout main
     chdir: "{{ project_path }}"
-  tags: update_project_template
+  tags: 
+    - update_project_template
+    - update_project_systems

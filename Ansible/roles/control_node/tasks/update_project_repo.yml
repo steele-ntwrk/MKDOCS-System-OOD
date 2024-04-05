@@ -1,9 +1,21 @@
+- name: Attempt to clone repository
+  git:
+    repo: "{{ mkdocs_repo_url }}"
+    dest: "{{ project_path }}"
+    force: yes
+    key_file: /home/matts/.ssh/id_rsa
+  register: git_clone
+  tags:
+    - push_project_update
+
 - name: Push update to remote repository
   command: git checkout main
   args:
    chdir: "{{ project_path }}"
   register: git_push
-  tags: push_project_update
+  tags: 
+    - push_project_update
+    - init
 
 - name: Run mkdocs build in virtual environment
   shell: |
@@ -12,25 +24,31 @@
   args:
     chdir: "{{ project_path }}"
     executable: /bin/bash
-  tags: push_project_update
+  tags: 
+    - push_project_update
+    - init
 
 - name: Add all files in directory to git tracking
   command: git add .
   args:
     chdir: "{{ project_path }}"
-  tags: push_project_update
+  tags: 
+    - push_project_update
+    - init
 
 - name: Commit change
   command: git commit --allow-empty -m "new or automated update"
   args:
     chdir: "{{ project_path }}"
-  tags: push_project_update
+  tags: 
+    - push_project_update
+    - init
 
 - name: Push update to remote repository
   command: git push --set-upstream origin main
   args:
    chdir: "{{ project_path }}"
   register: git_push
-  tags: push_project_update
-
-
+  tags: 
+    - push_project_update
+    - init

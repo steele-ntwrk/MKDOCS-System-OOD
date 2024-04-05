@@ -1,7 +1,15 @@
 ---
+- name: Fail if no tags are specified
+  fail:
+    msg: "This playbook requires tags to be used. Please run again with --tags specified as per documentation."
 
 - name: Create mkdocs directory structure
   include_tasks: create_mkdocs_dir.yml
+  tags:
+    - init
+
+- name: Create mkdocs-macros main.py
+  include_tasks: mkdocs-macros.yml
   tags:
     - init
 
@@ -55,4 +63,5 @@
 - name: Include update_project_template tasks
   include_tasks: update_project_templates.yml
   tags:
-    - update_project_template  # This ensures the inclusion task itself is always considered
+    - update_project_template
+    - update_project_systems

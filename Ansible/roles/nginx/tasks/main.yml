@@ -6,6 +6,7 @@
     state: latest
     update_cache: yes
   become: yes
+  tags: init
 
 - name: Ensure git is installed
   become: yes
@@ -14,27 +15,35 @@
     state: present
     use: apt
   become: yes
+  tags: init
 
 - name: Set project path
   set_fact:
     project_path: "{{ base_path }}/{{ project_name }}"
+  tags: init
 
 - name: Create project directory
   file:
     path: "{{ project_path }}"
     state: directory
+  tags: init
+- name: Fail if no tags are specified
+  fail:
+    msg: "This playbook requires tags to be used. Please run again with --tags specified as per documentation."
 
 - name: Set global Git user name
   git_config:
     name: user.name
     value: "{{ git_username }}"
     scope: global
+  tags: init
 
 - name: Set global Git user email
   git_config:
     name: user.email
     value: "{{ git_email }}"
     scope: global
+  tags: init
 
 - name: Attempt to clone repository
   git:
@@ -43,7 +52,9 @@
     force: yes
     key_file: /home/matts/.ssh/id_rsa
   register: git_clone
-  tags: push_project_update
+  tags: 
+    - init
+    - push_project_update
 
 - name: Apply Nginx template
   template:
@@ -51,6 +62,7 @@
     dest: /etc/nginx/sites-available/default
   notify: restart nginx
   become: yes
+  tags: init
 
 - name: Enable new site
   file:
@@ -59,6 +71,7 @@
     state: link
   notify: restart nginx
   become: yes
+  tags: init
 
 - name: Allow all access to tcp port 8080
   ufw:
@@ -66,3 +79,4 @@
     port: '8080'
     proto: tcp
   become: yes
+  tags: init

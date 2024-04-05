@@ -3,6 +3,8 @@
   apt:
     name: python3-pip
     state: present
+  tags:
+    - init
 
 - name: Create a virtual environment for mkdocs and plugins
   become: yes
@@ -10,6 +12,8 @@
     cmd: python3 -m venv {{ base_path }}/{{ project_name }}/venv
   args:
     creates: "{{ base_path }}/{{ project_name }}/venv"
+  tags:
+    - init
 
 - name: Install required packages
   become: yes
@@ -22,6 +26,8 @@
       - libasound2
       - xvfb
     state: present
+  tags:
+    - init
 
 - name: Install mkdocs and plugins
   become: yes
@@ -31,8 +37,11 @@
       - mkdocs-material
       - mkdocs-drawio-exporter
       - mkdocs-macros-plugin
+      - pynetbox
     state: present
     executable: "{{ base_path }}/{{ project_name }}/venv/bin/pip3"
+  tags:
+    - init
 
 - name: Install draw.io
   block:
@@ -41,11 +50,17 @@
       apt:
         update_cache: yes
         upgrade: yes
+      tags:
+        - init
+  
 
     - name: Check if draw.io is already installed
       ansible.builtin.command: which drawio
       register: drawio_installed
       ignore_errors: yes
+      tags:
+        - init
+  
 
     - name: Get the latest draw.io release URL and download .deb package
       become: yes
@@ -60,12 +75,18 @@
       register: wget_output
       failed_when: wget_output.rc != 0 or 'No such file' in wget_output.stderr
       when: drawio_installed is failed
+      tags:
+        - init
+  
 
     - name: Ensure desktop-file-utils is installed
       become: yes
       apt:
         name: desktop-file-utils
         state: present
+      tags:
+        - init
+  
 
     - name: Install draw.io package using dpkg
       become: yes
@@ -76,16 +97,25 @@
       changed_when: "'Setting up draw.io' in dpkg_result.stdout or 'Unpacking draw.io' in dpkg_result.stdout"
       ignore_errors: yes
       when: drawio_installed is failed
+      tags:
+        - init
+  
 
     - name: Verify draw.io installation
       become: yes
       command: dpkg -s draw.io
       register: verify_install
       changed_when: false
+      tags:
+        - init
+  
 
     - name: Output installation verification
       debug:
         var: verify_install.stdout_lines
+      tags:
+        - init
+  
 
     - name: Install additional required packages
       become: yes
@@ -94,3 +124,6 @@
           - libasound2
           - xvfb
         state: present
+      tags:
+        - init
+  

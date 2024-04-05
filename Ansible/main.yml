@@ -6,11 +6,14 @@
     - roles/control_node/vars/sos_master.yml
     - roles/control_node/vars/requirements.yml
     - roles/control_node/vars/secret.yml
+
   roles:
     - control_node
+
   tags: 
     - control_node
-    - init
+
+
 
 - hosts: nginx
   gather_facts: no
@@ -22,4 +25,3 @@
     - nginx
   tags: 
     - install_nginx
-    - init

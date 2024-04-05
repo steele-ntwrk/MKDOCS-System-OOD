@@ -1,0 +1,6 @@
+- name: Render mkdoc-marcos main.py
+  template:
+    src: "mkdocs-macro-main.py.j2"
+    dest: "{{ base_path }}/{{project_name}}/main.py"
+  tags:
+    - init

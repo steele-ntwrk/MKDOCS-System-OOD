@@ -3,8 +3,9 @@
     path: "{{ base_path }}/{{ project_name }}/docs/requirements/{{ requirements_type }}"
     state: directory
   tags: 
-      - update_project_systems
-      - update_project_template
+    - init
+    - update_project_systems
+    - update_project_template
 
 - name: Create "{{ requirements_type }}" requirements files
   template:
@@ -14,5 +15,6 @@
   loop_control:
     loop_var: requirement_item
   tags:
-      - update_project_systems
-      - update_project_template
+    - init
+    - update_project_systems
+    - update_project_template

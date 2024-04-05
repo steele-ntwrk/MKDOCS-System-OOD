@@ -4,6 +4,7 @@
     state: directory
   tags:
     - update_project_systems
+    - init
 
 - name: Create component detailed design files
   template:
@@ -12,6 +13,7 @@
   tags:
     - update_project_systems
     - update_project_template
+    - init
 
 - name: Create supporting directories for components
   file:
@@ -20,3 +22,4 @@
   loop: "{{ supporting_folders }}"
   tags:
     - update_project_systems
+    - init
